@@ -1,0 +1,26 @@
+Motor:
+	Command:  [MO motor1 motor2 time]
+	Format: 
+		motor1 - 1 byte (0-255)
+		motor2 - 1 byte (0-255)
+		time   - 2 byte big endian tid msek. 
+	ingen returværdi (siger bib)
+	
+LIDAR:
+	Command1: [LD D/S/P/E] 
+		D: Distance
+		S: Signal strength
+		P: Rotor speed
+		E: Error codes
+	Returværdi: 
+		For D og S er svaret:
+			Array af 360 x 2 bytes big endian (Den første er altid 0 grader) (Distance er mm)
+		P er en 2 byte værdi som big endian værdien er RPM*64
+		E er samme format som D og S, bortes fra at den kun har 360 x 1 byte
+	
+	Command2: [UP]
+	Returværdi:
+		1 byte formateret som 
+			[0x00] hvis ingen LIDAR data er tilgængelig. 
+			[0x01] hvis LIDAR date er tilgængelig
+Afslut enhver kommando med \n
