@@ -19,8 +19,8 @@
 \begin{document}
 
 \maketitle % Insert title
-\thispagestyle{fancy} % All pages have headers and footers
 
+\newpage
 %----------------------------------------------------------------------------------------
 %	ABSTRACT
 %----------------------------------------------------------------------------------------
@@ -28,14 +28,38 @@
 \begin{abstract}
 The Content of this paper seeks to present the knowledge gained throughout the AI in Robotics and kalman filters reading course from Aarhus University, department of engineering. 
 \end{abstract}
+\tableofcontents
 
 %----------------------------------------------------------------------------------------
 %	ARTICLE CONTENTS
 %----------------------------------------------------------------------------------------
 
 %\begin{multicols}{2} % Two-column layout throughout the main article text
-
 \input{sections/Introduction}
+% chapter theory
+\chapter{Theory}
+\input{sections/Localisation}
+\input{sections/SearchandPlanning}
+\input{sections/Control}
+\input{sections/SLAM}
+%	Localisation
+%		- Histogram - René
+%		- Kalman - Rune
+%		- Particle - Rune
+%	Search and Planning - Nicolai
+%	Control - Nicolai
+%	SLAM - René
+% chapter project
+\chapter{Project}
+%	Project formulation
+%	Platform & Hardware
+%	Design and Implementation
+%		- Location
+%		- Planning
+%		- Driving
+\input{sections/Projectformulation}
+\input{sections/PlatformHardware}
+\input{sections/Designandimp}
 \input{sections/Results}
 \input{sections/Conclusion}
 
