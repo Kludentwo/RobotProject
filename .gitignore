@@ -125,3 +125,5 @@ sympy-plots-for-*.tex/
 *.bak
 *.sav
 Report/Master.pdf
+Software/RobotController.asv
+Software/main.asv
