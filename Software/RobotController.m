@@ -12,6 +12,14 @@ classdef RobotController
             fopen(Obj.socket);
         end; 
         
+        function col = Shootbeams(obj, NObeams)
+            dis = GetDistance(obj.socket, 'D');
+            for n = 1:NObeams
+                id = uint32((360/NObeams)*(n-1))+1
+                col(n) = dis(id); 
+            end
+        end;
+        
         function dis = Distance(obj)
             dis = GetDistance(obj.socket, 'D');
         end; 

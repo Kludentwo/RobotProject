@@ -21,7 +21,7 @@ robot = RobotController();
 %robot.Move(100,-100,1400);
 %robot.Turn(30);
 
-
+robot.Shootbeams(8)
 pause(2)
 for n = 1:3
 tic; 
