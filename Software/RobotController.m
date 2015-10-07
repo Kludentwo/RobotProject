@@ -32,6 +32,7 @@ classdef RobotController
             dis = GetDistance(obj.socket,'S');
         end;
         
+        % robot.Move(-100,100,2320); % full turnaround at speed 100.
         function [] = Move(obj, motor1, motor2, time)
             Move(obj.socket,motor1, motor2, time);
         end; 
