@@ -127,3 +127,5 @@ sympy-plots-for-*.tex/
 Report/Master.pdf
 Software/RobotController.asv
 Software/main.asv
+Software/costtest.m
+*.asv
