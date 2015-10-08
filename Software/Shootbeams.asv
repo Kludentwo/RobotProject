@@ -16,8 +16,8 @@ for n = 0: NObeams-1
     while(distance<1500)
          distance = distance + propeDistance;
          
-         propX = int32(robot(:,1) + (cos(direction).*distance).*robot(:,4));
-         propY = int32(robot(:,2) + (sin(direction).*distance).*robot(:,4));
+         propX = int32(robot(:,1) + (cos(direction(:,1)).*distance).*robot(:,4));
+         propY = int32(robot(:,2) + (sin(direction(:,1)).*distance).*robot(:,4));
          
          
          res = diag(map(propX,propY));

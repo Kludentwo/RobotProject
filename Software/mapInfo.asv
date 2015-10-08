@@ -14,7 +14,7 @@ map(crateHeigth,:) = ones(1,crateWidth);
 
 
 %%
-sense_noise = 500; 
+sense_noise = 300; 
 RealRobot = [crateHeigth-10, crateWidth-5, 0];
 
 
@@ -62,7 +62,7 @@ figure(2)
     hold on
     plot([RealRobot(1), zero_hit_x], [RealRobot(2), zero_hit_y]);
     hold off
-    axis([-10 90 -10 57]);
+    axis([-10 90 -10 47]);
 pause(0.1)
 %% Resample
 
@@ -84,7 +84,7 @@ robot = np;
 %%
 
 turn_noise = 0.1;
-turn = (rand)*1; 
+turn = 1; 
 
 move = (rand)*5; 
 move_noise = 0.5;
@@ -92,12 +92,12 @@ move_noise = 0.5;
 
  
 RealRobot(:,3) = wrapTo2Pi(RealRobot(:,3)+turn);
-RealRobot(:,1) = mod((RealRobot(:,1)-1 + move*cos(RealRobot(:,3))), crateHeigth-1)+1;
-RealRobot(:,2) = mod((RealRobot(:,2)-1 + move*sin(RealRobot(:,3))), crateWidth-1)+1;
+RealRobot(:,1) = mod((RealRobot(:,1) + move*cos(RealRobot(:,3))), crateHeigth-1)+1;
+RealRobot(:,2) = mod((RealRobot(:,2) + move*sin(RealRobot(:,3))), crateWidth-1)+1;
 
 
 robot(:,3) = wrapTo2Pi(robot(:,3)+turn+randn(size(robot,1),1)*turn_noise);
-robot(:,1) = mod((robot(:,1)-1 + move*cos(robot(:,3))+randn(size(robot,1),1)*move_noise), crateHeigth-1)+1;
-robot(:,2) = mod((robot(:,2)-1 + move*sin(robot(:,3))+randn(size(robot,1),1)*move_noise), crateWidth-1)+1;
+robot(:,1) = mod((robot(:,1) + move*cos(robot(:,3))+randn(size(robot,1),1)*move_noise), crateHeigth-1)+1;
+robot(:,2) = mod((robot(:,2) + move*sin(robot(:,3))+randn(size(robot,1),1)*move_noise), crateWidth-1)+1;
 
 end
