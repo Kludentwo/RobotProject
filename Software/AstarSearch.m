@@ -22,7 +22,7 @@ if nargin < 5
     heuristic = GenHeuristic(grid);
 end
 if nargin < 4
-    cost = 1;
+    cost = ones(size(grid));
 end
 if nargin < 3
     goal = size(grid);
@@ -76,7 +76,7 @@ while (~found && ~resign)
                 y2 = y + delta(i,2);
                 if (x2 > 0 && x2 < size(grid,1) + 1 && y2 > 0 && y2 < size(grid,2)+1)
                     if (closed(x2,y2) == 0 && grid(x2,y2) == 0)
-                        g2 = g + cost;
+                        g2 = g + cost(x2,y2);
                         h2 = heuristic(x2,y2);
                         f2 = g2 + h2;
                         newtable = table(f2,g2,h2,x2,y2);
