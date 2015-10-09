@@ -49,7 +49,9 @@ classdef RobotController
         % Precondition: -180 <= phi <= 180;
         % Postcondition: yada ydada
         function [] = Turn(obj, phi)
-            if ( phi < 0 ) %Turn Left
+            if (phi == 0)
+                return;
+            elseif ( phi < 0 ) %Turn Left
                 phi = abs(phi);
                 motor1 = 100;
                 motor2 = -100;
