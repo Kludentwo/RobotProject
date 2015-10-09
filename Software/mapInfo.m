@@ -18,7 +18,7 @@ crateWidth = size(map,2);
 
 
 %%
-sence_noise = 400; 
+sence_noise = 600; 
 RealRobot = [50, 150, 0];
 
 
@@ -113,8 +113,7 @@ rad = ang*(pi/180);
 ang = (ang - ( idivide(int32(ang),int32(180))*360))*-1;
 
 Robot_controller.Turn(ang);
-pause(3); 
-Robot_controller.Move(100,100,1000); 
+Robot_controller.Move(100,100,15); 
 
 %% 
 turn_noise = 0.5;
