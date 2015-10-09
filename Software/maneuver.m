@@ -3,10 +3,8 @@ function [] = maneuver( Controller, Robot, Direction, Distance )
 %   Detailed explanation goes here
 
 if nargin < 4
-    Distance = 10;
+    Distance = 1;
 end
-
-
 
 RobotAngle = Robot(3);
 Angle2 = mod(Direction*(pi/2),2*pi);

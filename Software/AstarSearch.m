@@ -113,7 +113,7 @@ end
 %expand
 %action
 %policy = char(policy)
-%policyvect = fliplr(policyvect)
+policyvect = fliplr(policyvect);
 path = path(end:-1:1,:);
 end
 
