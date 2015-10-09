@@ -33,7 +33,11 @@ classdef RobotController
         end;
         
         % robot.Move(-100,100,2320); % full turnaround at speed 100.
-        function [] = Move(obj, motor1, motor2, time)
+        function [] = Move(obj, motor1, motor2, distance)
+            distance = distance * 10; % formula is in milimiters, map is in centimeters
+
+            t = 9.131E-6*distance^3 - 7.859E-3*distance^2 + 6.154*distance + 71.996;
+            
             Move(obj.socket,motor1, motor2, time);
             pause(t)
         end; 
