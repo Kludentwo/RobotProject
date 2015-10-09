@@ -35,6 +35,7 @@ classdef RobotController
         % robot.Move(-100,100,2320); % full turnaround at speed 100.
         function [] = Move(obj, motor1, motor2, time)
             Move(obj.socket,motor1, motor2, time);
+            pause(t)
         end; 
         
         % Precondition: -180 <= phi <= 180;
@@ -52,8 +53,9 @@ classdef RobotController
             end
             
             Move(obj.socket,motor1,motor2,t)
+            pause(t)
         end;
-        
+               
         function delete(obj)
             fclose(obj.socket);
         end
