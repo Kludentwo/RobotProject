@@ -14,11 +14,14 @@ nuinit = [ idivide(int32(init-1),scalefactor)+1 ];
 numap = ceil(imresize(map,1/scalefactor));
 nugoal = [ idivide(int32(goal-1),scalefactor)+1 ];
 
-cost = numap * 80 + 1;
-cost = imgaussfilt(cost,2)*10;
+% cost = numap * 80 + 1;
+% cost = imgaussfilt(cost,2)*10;
+load('costmap','costmap');
+nucostmap = ceil(imresize(costmap,1/scalefactor));
+cost = nucostmap*20+1;
 
 [ policyvect path ] = AstarSearch( numap, nuinit, nugoal, cost);
-nupolicyvect = scaleMap(policyvect, 5);
+nupolicyvect = scaleMap(policyvect, scalefactor);
 
 figure,
 plotpath(path,numap)
