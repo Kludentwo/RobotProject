@@ -1,4 +1,4 @@
-function [ beamCol ] = Shootbeams(robot, map, NObeams,  propeDistance)
+function [ beamCol ] = Shootbeams(robot, map, NObeams,  propeDistance, hitchar)
 %SHOOT Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -21,8 +21,8 @@ for n = 0: NObeams-1
          
          
          res = diag(map(propX,propY));
+         beamCol(:,n+1) = beamCol(:,n+1) +  (res.*distance).*robot(:,4);
          robot(:,4) = robot(:,4).*~res;
-         beamCol(:,n+1) = beamCol(:,n+1) +  res.*distance;
          
          if(sum(robot(:,4))==0)
              break;
