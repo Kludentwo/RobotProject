@@ -1,4 +1,4 @@
-function [ expand action policy policyvect path ] = AstarSearch( grid, init, goal, cost, heuristic )
+function [ policyvect path ] = AstarSearch( grid, init, goal, cost, heuristic )
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 %

@@ -8,7 +8,7 @@ end
 
 compare = policyvect(index);
 distance = 0;
-while ( policyvect(index+distance) == compare || distance == maxdist)
+while ( policyvect(index+distance) == compare && distance ~= maxdist)
     distance = distance + 1;
 end
 end
