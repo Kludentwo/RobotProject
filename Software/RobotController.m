@@ -15,8 +15,10 @@ classdef RobotController
         function col = Shootbeams(obj, NObeams)
             dis = GetDistance(obj.socket, 'D');
             for n = 1:NObeams
-                id = uint32((360/NObeams)*(n-1))+1
-                col(n) = dis(id); 
+                id = uint32((360/NObeams)*(n-1))+1;
+                currentdis = dis(id);
+                
+                col(n) = currentdis; 
             end
         end;
         
@@ -39,8 +41,8 @@ classdef RobotController
 
             t = 2E-5*distance^3 - 0.0157E-3*distance^2 + 7.6742*distance;
             
-            Move(obj.socket,motor1, motor2, time);
-            pause(t)
+            Move(obj.socket,motor1, motor2, t);
+            pause(t/1000+0.5)
             end
         end; 
         
@@ -59,7 +61,7 @@ classdef RobotController
             end
             
             Move(obj.socket,motor1,motor2,t)
-            pause(t)
+            pause(t/1000+0.5)
         end;
                
         function delete(obj)

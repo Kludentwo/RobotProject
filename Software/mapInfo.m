@@ -2,52 +2,60 @@
 
 %% Create map of crate
 
-crateHeigth = 80; 
-crateWidth = 47; 
+load('map')
+
+crateHeigth = size(map,1); 
+crateWidth = size(map,2); 
+
+%Robot_controller = RobotController();
 
 %Create walls 
-map = zeros(crateHeigth,crateWidth);
-map(:,1) = ones(crateHeigth,1);
-map(:,crateWidth) = ones(crateHeigth,1); 
-map(1,:) = ones(1,crateWidth);
-map(crateHeigth,:) = ones(1,crateWidth);
+%map = zeros(crateHeigth,crateWidth);
+%map(:,1) = ones(crateHeigth,1)*10;
+%map(:,crateWidth) = ones(crateHeigth,1)*10; 
+%map(1,:) = ones(1,crateWidth)*10;
+%map(crateHeigth,:) = ones(1,crateWidth)*10;
 
 
 %%
-sense_noise = 500; 
-RealRobot = [crateHeigth-10, crateWidth-5, 0];
+sence_noise = 600; 
+RealRobot = [50, 150, 0];
 
 
 %% 
-NumPar = 200; 
-
-x = (crateHeigth-1).*rand(NumPar,1) + 1;
-y = (crateWidth-1).*rand(NumPar,1) + 1;
-phi = (2*pi).*rand(NumPar,1);
-robot = [x , y, phi];
-
+NumPar = 300; 
 
 
 %% Shoot beams
 
-NObeams = 8; 
+NObeams = 20; 
 propeDistance = 0.5; 
+bestfit =  0; 
 
 for sim_loop = 1:500 
-beamCol = Shootbeams(robot, map, NObeams, propeDistance).*10;
+
+if bestfit < 0.10
+    x = (crateHeigth-1).*rand(NumPar,1) + 1;
+    y = (crateWidth-1).*rand(NumPar,1) + 1;
+    phi = (2*pi).*rand(NumPar,1);
+    robot = [x , y, phi];   
+end
+    
+%%    
+    
+beamCol = Shootbeams(robot, map, NObeams, propeDistance,1).*10;
 
 %% Fitness
 
-realbeam = Shootbeams(RealRobot,map,NObeams, propeDistance);
-zero_hit_x = cos(RealRobot(3))*realbeam(1)+RealRobot(1);
-zero_hit_y = sin(RealRobot(3))*realbeam(1)+RealRobot(2);
+realbeam = Robot_controller.Shootbeams(NObeams);%[675 521 354 488 459 690 479 672] ;%Robot_controller.Shootbeams(NObeams);
 
-
-prob = CalcProb(beamCol,realbeam*10, sense_noise);
+prob = CalcProb(beamCol,realbeam, sence_noise);
+alfa = prob/sum(prob);
 %%
 bestfit =  0; 
+mean = [0, 0, 0];
 for i = 1:NumPar
-
+mean = mean + robot(i,:)*alfa(i);
 if(prob(i) > bestfit)
     bestfit = prob(i); 
     bestpos = robot(i,:);
@@ -55,15 +63,22 @@ end
 
 end
 
+zero_hit_x = cos(bestpos(3))*realbeam(1)/10+bestpos(1);
+zero_hit_y = sin(bestpos(3))*realbeam(1)/10+bestpos(2);
+
+pd = pdist([bestpos; mean],'euclidean');
 
 figure(2)
     [X, Y] = find(map);
-    plot(X,Y, 'ob', RealRobot(1),RealRobot(2),'og', robot(:,1),robot(:,2),'.r',bestpos(1),bestpos(2),'Xc');
+    plot(X,Y, 'ob', bestpos(1),bestpos(2),'og', robot(:,1),robot(:,2),'.r',mean(:,1),mean(:,2),'xb');
     hold on
-    plot([RealRobot(1), zero_hit_x], [RealRobot(2), zero_hit_y]);
+    plot([bestpos(1), zero_hit_x], [bestpos(2), zero_hit_y]);
     hold off
-    axis([-10 90 -10 57]);
+    legend(num2str(bestfit));
+    axis([0 size(map,1) 0 size(map,2)]);
 pause(0.1)
+
+
 %% Resample
 
 alfa = prob/sum(prob);
@@ -81,13 +96,31 @@ for k=1:size(robot,1)
 end
 
 robot = np;
-%%
+%% Real Move
+d = zeros(2, 360); 
+d(1, :) = 1:360;
+d(2,:) = Robot_controller.Distance();
 
-turn_noise = 0.1;
-turn = (rand)*1; 
 
-move = (rand)*5; 
-move_noise = 0.5;
+points(2,:) = cos(d(1,:)*pi/180).*d(2,:);
+points(1,:) = sin(d(1,:)*pi/180).*d(2,:);
+figure(3)
+scatter(points(2,:),points(1,:));
+
+
+[maxdis ang] = max(d(2,:));
+rad = ang*(pi/180);
+ang = (ang - ( idivide(int32(ang),int32(180))*360))*-1;
+
+Robot_controller.Turn(ang);
+Robot_controller.Move(100,100,15); 
+
+%% 
+turn_noise = 0.5;
+turn = rad; 
+
+move = 19; 
+move_noise = 5;
 
 
  
