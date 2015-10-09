@@ -5,5 +5,8 @@ map(1,1:end)=1;
 map(end,1:end)=1;
 map(end-45:end,128*2:128*2+15) = 1;
 map(end-45:end-30,128*2-15:128*2) = 1;
-imshow(map)
-save('map','map')
+
+costwidth = 15;
+se = strel('disk', costwidth);
+costmap = imdilate(map,se);
+figure(1), imshow((costmap+map)*0.5), title('Dilated')
