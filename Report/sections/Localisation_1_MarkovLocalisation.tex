@@ -1,0 +1,67 @@
+% Localisation_MarkovLocalisation
+The purpose of Markov Localisation is to estimate where the robot is located, given its measurements, movements and a map describing the world in which the robot is placed.
+Lets say the robot can move along a wall and sense whether if there is a door next to it or not. We place the robot in a world with a wall with 3 doors.
+The estimation of the localisation of the robot is called belief and is the probability of being in a given location, given the previous act. At the beginning, the robot will not know where it is, and therefore it will have a uniformly distributed belief.\\ 
+Then the robot takes a measurement, and let's say that it measures a door. Now the new belief is the former belief multiplied with the probability of the measurement z given the position x. 
+\begin{equation}
+bel'(x) = bel(x) \cdot p(z|x)
+\label{ML_eq1}
+\end{equation}
+After this the robot moves. A movement is often noisy and therefore the precision of the belief will fall. This is illustrated by convolving the belief with the motion model. The motion model consists of a mean $\mu$, representing the noise free movement, and a standard deviation $\sigma$, representing the noise. The result of this step can be seen in \ref{ML_fig1:sub3}.
+\begin{equation}
+bel'(x) = bel(x) \ast norm(\mu,\sigma)
+\label{ML_eq2}
+\end{equation}
+These two steps are now repeated the rest of the lifetime of the robot. Every time the robot senses, it gets more certain of where it is and every time it moves it gets more uncertain. In figure \ref{ML_fig1} two iterations are shown.
+
+\begin{figure}[H]
+\centering
+
+\begin{subfigure}[b]{.8\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{billeder/MarkovLocalisation01.png}
+  \caption{Initial belief is uniformly distributed.}
+  \label{ML_fig1:sub1}
+\end{subfigure}%
+
+\begin{subfigure}[b]{.8\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{billeder/MarkovLocalisation02.png}
+  \caption{Measurement and result of belief multiplied with measurement.}
+  \label{ML_fig1:sub2}
+\end{subfigure}
+
+\begin{subfigure}[b]{.8\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{billeder/MarkovLocalisation03.png}
+  \caption{Movement of robot and belief. Noise makes the belief after the movement more uncertain.}
+  \label{ML_fig1:sub3}
+\end{subfigure}%
+
+\begin{subfigure}[b]{.8\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{billeder/MarkovLocalisation04.png}
+  \caption{Measurement and result of belief multiplied with measurement.}
+  \label{ML_fig1:sub4}
+\end{subfigure}
+
+\begin{subfigure}[b]{.8\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{billeder/MarkovLocalisation05.png}
+  \caption{Movement of robot and belief. Noise makes the belief after the movement more uncertain.}
+  \label{ML_fig1:sub5}
+\end{subfigure}
+
+\caption{Markov Localisation illustrated. From Probabilistic Robotics by Sebastian Thrun, Wolfram Burgard and Dieter Fox.}
+\label{ML_fig1}
+\end{figure}
+
+The algorithm for Markov Localisation is as follows:\\
+1:\quad \textbf{Algorithm MarkovLocalization(}$bel(x_{t-1}),u_t,z_t,m$\textbf{):}\\
+2:\quad \quad $for\,all\,x_t\,do$\\
+3:\quad \qquad $\overline{bel}(x_t) = \int p(x_t|u_t,x_{t-1},m)\cdot bel(x_{t-1}) dx$\\
+4:\quad \qquad $bel(x_t) = \eta p(z_t|x_t,m)\cdot \overline{bel}(x_t)$\\
+5:\quad \quad $endfor$\\
+6:\quad \quad $return\,bel(x_t)$
+
+What happens is that after a move, $u_t$, and a measurement, $z_t$, has been taken, the algorithm is called. First it calculates the belief after the movement, and then it calculates the belief after the measurement. It does this for all possible places, $x_t$, in the map, $m$. This corresponds to the combinations of (a and b) or (c and d) in figure \ref{ML_fig1}.
