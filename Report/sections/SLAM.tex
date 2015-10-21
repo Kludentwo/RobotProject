@@ -1,7 +1,7 @@
 \section{SLAM}
 When a robot is placed in an unknown environment, it needs to figure out where it is and how the world around it looks. For this SLAM is used, SLAM is short for Simultaneous Localization And Mapping. 
 What want to achieve by using slam is to know the relative position of the robot to all seen landmarks. There is two main types of slam, online SLAM and full SLAM. online SLAM only keeps track of the relative position of the robot compared to all seen landmarks, while full SLAM keeps track of the current and all previous robot positions compared to all seen landmarks.
-There are multiple SLAM algorithms, in this section, Graph SLAM and EKF SLAM will be explained shortly.
+There are multiple SLAM algorithms, in this section, Graph SLAM will be explained shortly.
 
 \subsection{Graph SLAM}
 In the perfect world, when a robot moves, it will move exactly as intended. So if a robot is supposed to move 10 in the x direction, the new position will be $x_1 = x_0 + 10$ and $y_1 = y_0$. 
@@ -78,7 +78,5 @@ The most likely positions for the robot poses and the landmarks, $\mu$, are then
 If noise is involved in the movements or measurements, this is handled by multiplying the constrains with $\frac{1}{\sigma}$, where $\sigma$ is the noise related to the constrain.
 
 If the robot lives for a long time, the path taken will grow towards infinity. To avoid this, online SLAM can be used, but this will not be explained here.
-
-\subsection{EKF SLAM}
 
 %------------------------------------------------

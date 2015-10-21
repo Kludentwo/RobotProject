@@ -1,5 +1,35 @@
 \section{Localisation}
-\lipsum[7] % Dummy text
+Localisation is the act of a robot finding out where it is. GPS systems are often used to do this in cases where precision is not critical, e.g. GPS navigation. If precision is critical, e.g. for a robot to drive past obstacles without hitting them, GPS is too imprecise. Other techniques must then be used. To do this, robots often have sensors, such as sonars, LIDARs or cameras. 
+The localisation algorithms consists of two main parts, movement and measurement. Movement is imprecise, often because of the mechanical system. Measurements contributes with new knowledge and is therefore the part that narrows the decision, of where the robot is, in. The measurements is often also noisy, but usually less noisy than the movements.
+Another important thing in localisation is probability. What is the probability of being in a certain position, given the measurement? To calculate this, Bayes rule is used.
+\begin{equation}
+p(x|z) = \frac{p(z|x)\cdot p(x)}{p(z)}
+\end{equation}
+Where $\frac{1}{p(z)}$ is the normalizing factor $\eta$.
+\begin{equation}
+\eta = \frac{1}{p(z)} = \frac{1}{\sum(p(z|x)\cdot p(x))}
+\end{equation}
+This gives us the expression:
+\begin{equation}
+p(x|z) = \eta \cdot p(z|x)\cdot p(x)
+\end{equation}
+
+\textbf{Eksample:}\\
+A robot is in one of the grids in the map. It can detect if it is in a red or green grid. 
+\begin{figure}[H]
+\includegraphics[scale=1]{billeder/Localisation01.png}
+\caption{The map in which the robot lives}
+\end{figure}
+If the robot is in a green grid, it detects correctly with 75\% chance. If it is in a red grid, it detects correctly with 90\% chance.
+If the robot detects green, what is the probability that it is in a green or a red grid?\\
+$z = green$\\
+$\eta = \frac{1}{sum(p(z|x)\cdot p(x))} = \frac{1}{0.75 \cdot \frac{3}{5} + 0.1 \cdot 2/5} = 2.04$\\\\
+$x = green$\\
+$p(x) = \frac{3}{5}$\\
+$p(x \mid z) = \eta \cdot p(z|x)\cdot p(x) = 2.04 \cdot 0.75 \cdot \frac{3}{5} = 0.918 = 91.8\%$\\\\
+$x = red$\\
+$p(x) = \frac{2}{5}$\\
+$p(x \mid z) = \eta \cdot p(z|x)\cdot p(x) = 2.04 \cdot 0.1 \cdot \frac{2}{5} = 0.082 = 8.2\%$
 
 \subsection{Markov Localisation}
 \input{sections/Localisation_1_MarkovLocalisation}
