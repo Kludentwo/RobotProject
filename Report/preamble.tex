@@ -10,9 +10,10 @@
 \usepackage{fixltx2e}						% Retter forskellige fejl i LaTeX-kernen
 																			
 % ¤¤ Figurer og tabeller (floats) ¤¤ %
+
+\usepackage{graphicx}						% Haandtering af eksterne billeder (JPG, PNG, EPS, PDF)
 \usepackage{caption}
-\usepackage{subcaption}
-\usepackage{graphicx} 						% Haandtering af eksterne billeder (JPG, PNG, EPS, PDF)
+\usepackage{subcaption} 						
 %\usepackage{eso-pic}						% Tilfoej billedekommandoer paa hver side
 %\usepackage{wrapfig}						% Indsaettelse af figurer omsvoebt af tekst. \begin{wrapfigure}{Placering}{Stoerrelse}
 \usepackage{multirow}                		% Fletning af raekker og kolonner (\multicolumn og \multirow)
@@ -29,12 +30,8 @@
 
 % ¤¤ Matematik mm. ¤¤
 \usepackage{amsmath,amssymb,stmaryrd} 		% Avancerede matematik-udvidelser
-\usepackage{mathtools}						% Andre matematik- og tegnudvidelser
 \usepackage{textcomp}                 		% Symbol-udvidelser (f.eks. promille-tegn med \textperthousand )
 \usepackage{rsphrase}						% Kemi-pakke til RS-saetninger, f.eks. \rsphrase{R1}
-\usepackage[version=3]{mhchem} 				% Kemi-pakke til flot og let notation af formler, f.eks. \ce{Fe2O3}
-\usepackage{siunitx}						% Flot og konsistent praesentation af tal og enheder med \si{enhed} og \SI{tal}{enhed}
-\sisetup{locale=DE}							% Opsaetning af \SI (DE for komma som decimalseparator) 
 
 % ¤¤ Referencer og kilder ¤¤ %
 \usepackage[danish]{varioref}				% Muliggoer bl.a. krydshenvisninger med sidetal (\vref)
