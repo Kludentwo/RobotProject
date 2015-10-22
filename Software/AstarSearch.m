@@ -19,13 +19,13 @@ function [ policyvect path ] = AstarSearch( grid, init, goal, cost, heuristic )
 % [expand action policy policyvect path] = AstarSearch(grid, init, goal, cost, heuristic);
 
 if nargin < 5
-    heuristic = GenHeuristic(grid);
+    heuristic = GenHeuristic(grid,goal);
 end
 if nargin < 4
     cost = ones(size(grid));
 end
 if nargin < 3
-    goal = size(grid);
+    goal = size(grid)-1;
 end
 if nargin < 2
     init = [1,1];
