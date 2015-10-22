@@ -26,6 +26,11 @@ classdef RobotController
             dis = GetDistance(obj.socket, 'D');
         end; 
         
+        function [] = Stop(obj)
+            fwrite(obj.socket, uint8(['S','T','a','b',10]));
+        end; 
+        
+        
         function dis = Error(obj)
             dis = GetDistance(obj.socket,'E');
         end;

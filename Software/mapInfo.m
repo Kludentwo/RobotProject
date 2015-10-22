@@ -23,7 +23,7 @@ RealRobot = [50, 150, 0];
 
 
 %% 
-NumPar = 300; 
+NumPar = 200; 
 
 
 %% Shoot beams
@@ -78,6 +78,8 @@ figure(2)
     axis([0 size(map,1) 0 size(map,2)]);
 pause(0.1)
 
+disTurn, targetDis = GetTargetPos( bestpos, bestfit,Robot_controller );
+
 
 %% Resample
 
@@ -97,29 +99,17 @@ end
 
 robot = np;
 %% Real Move
-d = zeros(2, 360); 
-d(1, :) = 1:360;
-d(2,:) = Robot_controller.Distance();
-
-
-points(2,:) = cos(d(1,:)*pi/180).*d(2,:);
-points(1,:) = sin(d(1,:)*pi/180).*d(2,:);
-figure(3)
-scatter(points(2,:),points(1,:));
-
-
-[maxdis ang] = max(d(2,:));
-rad = ang*(pi/180);
-ang = (ang - ( idivide(int32(ang),int32(180))*360))*-1;
+ang = disTurn*(180/pi);
+ang = ((ang - ( idivide(int32(ang),int32(180))*360))*-1);
 
 Robot_controller.Turn(ang);
-Robot_controller.Move(100,100,15); 
+Robot_controller.Move(100,100,targetDis); 
 
 %% 
 turn_noise = 0.5;
-turn = rad; 
+turn = disTurn; 
 
-move = 19; 
+move = targetDis; 
 move_noise = 5;
 
 

@@ -25,17 +25,18 @@ plotpath(path,numap)
 startdir = 4;
 Robot = [ 0 0 mod((startdir/2)*pi,2*pi)]
 indexcounter = 1;
+angle = 0; 
 
 newpos = init;
-while( newpos ~= goal )
-dist = calcDist(nupolicyvect, indexcounter, 20);
-dir2 = nupolicyvect(indexcounter);
+while( indexcounter < length(nupolicyvect) )
+dist = calcDist(nupolicyvect, indexcounter, 20)
+dir2 = nupolicyvect(indexcounter)
 
 newpos = init + delta(dir2,:)*dist;
-angle = maneuver(Robotcontroller1,Robot,dir2,dist);
+angle = mod(angle + maneuver(Robotcontroller1,Robot,dir2,dist),2*pi);
 
-Robot = [ newpos angle]
-indexcounter = indexcounter + dist
+Robot = [ newpos angle];
+indexcounter = indexcounter + dist;
 
 end
 
