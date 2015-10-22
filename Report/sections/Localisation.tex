@@ -35,8 +35,42 @@ $p(x \mid z) = \eta \cdot p(z|x)\cdot p(x) = 2.04 \cdot 0.1 \cdot \frac{2}{5} = 
 \input{sections/Localisation_1_MarkovLocalisation}
 
 \subsection{Kalman Filter}
-\lipsum[7] % Dummy text
+\input{sections/Localisation_2_KalmanFilter}
+
 
 \subsection{Particle Filter}
-\lipsum[7] % Dummy text
+The particle filter is a different kind of filter, since it uses a discrete method for finding the robots location, in contrast to the continuously methods previously discuses. \\
+The method is multi-model, which means that more than one location candidate can be found. This is a very popular technique for localisation, since it is simple to understand and implement. 
+\\
+\\
+Like the other filters, the particle filter does also require the map to be known, and we must be able to predict how all measurements will look in any given location. 
+
+The particle filter can also be seen as having a prediction step and a measurement step. Before we start the measurement-prediction loop, we first select a number $M$ of particles $X$ to use in the filter. Then we place all the $M$ particles at random locations. 
+
+\subsubsection{Prediction Step}
+After the robot have moved with a motion $u_t$, we move all the particles with the same motion. On this motion we add some random noise $w_t$. If one of the particles was exactly at the robot location before we moved it, and the noise we put on the particle was the exact same as on the real robot, the new particle location would still be the same as the robot.  
+
+\subsubsection{Measurement Step}
+First we take the measurement from the real robot $z_t$. Then we compare it to all of the $M$ particles and calculate the probability off the location of the real robot is the same as for the particle. This is done by comparing the measurement $z_t$, with the measurement that would have been at the particle location.
+At this process it is important to assume that there is noise on the measurements. If we assume that the sensor is to precise we risk giving particles that are close to the real location a low probability, which is not desirable.\\\\
+When we have all the probabilities for the particles $Prob_t$, we are doing resampling. The aim of resampling is to get a new set of $M$ new particles. The locations of the new particles must be randomly drawn from the old particle set whit a distribution that matches the $Prob_t$ distribution. This means that a lot of the new particles are at the locations with high probability, where only a few or none is at locations with low probability.\\ 
+\\
+After the resampling we continue with the prediction step, and so one. 
+
+\subsubsection{The Algorithm}
+Over time particles with at bad locations will die, and more will search the area around feasible locations. The predict - measurement steps can also be expressed as pseudo code as seen below: 
+
+\begin{figure}[H]
+\includegraphics[scale=0.51]{billeder/ParticleFilter.png}
+\end{figure}
+
+This process runs continuously, and will over time converge to zero or one single location.
+
+\subsubsection{Particle Filters Considerations}
+A series of scenarios must be considered when using particle filters. One is the scenario where there is not placed a particle close to the real robot or all the particles around it dies. This will make the particle filter coverage around a wrong location or no location. There are several techniques tackling this problem. One easy simple solution is to look at probability and see if there is at least one good candidate. If this is not the case the filter should be reset. 
+\\\\
+One other problem happens if the world is symmetric, this means that every measurement have multiple feasible locations, and when moved previously feasible locations still appearers equally likely. If this is the case it is impossible to know the true location. This is can also in extreme cases be a problem if the world is only partially symmetric, since all the true particles can die, and only the wrong survive. When we now enter a asymmetric area all the wrong will die, and we have no particles left. This can be fixed by either resetting the filter, or by a technique where you all ways randomly spread out the worst $5\%$ of you particles. 
+\\\\
+Also a balance must be found with the number of particles and the map size. The more particles the better the filter, but it will also drastically increase the calculation time. 
+
 %------------------------------------------------
