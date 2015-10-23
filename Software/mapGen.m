@@ -16,7 +16,7 @@ costmap = imdilate(map,se);
 %     temp = (imdilate(temp,se));
 %     costmap = costmap + temp;
 % end
-costmap = (costmap+map)%*50);
+costmap = (costmap+map)*50);
 figure(1), imshow(costmap/max(max(costmap))), title('Dilated')
 save('bigcostmap','costmap')
 
@@ -39,6 +39,6 @@ costmap = imdilate(map,se);
 %     temp = (imdilate(temp,se));
 %     costmap = costmap + temp;
 % end
-costmap = (costmap+map)%*50);
+costmap = (costmap+map)*50;
 figure(1), imshow(costmap/max(max(costmap))), title('Dilated')
 save('smallcostmap','costmap')
