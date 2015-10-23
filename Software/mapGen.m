@@ -31,7 +31,7 @@ map(38:45,end-66:end-29) = 1;
 save('smallmap','map')
 
 % Cost map
-costwidth = 25;
+costwidth = 28;
 se = strel('square', costwidth);
 costmap = imdilate(map,se);
 % temp = costmap;
