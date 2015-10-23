@@ -2,7 +2,6 @@
 
 %% Create map of crate
 
-load('map')
 
 crateHeigth = size(map,1); 
 crateWidth = size(map,2); 
@@ -18,9 +17,9 @@ crateWidth = size(map,2);
 
 
 %%
-sence_noise = 600; 
+sence_noise = 400; 
 RealRobot = [50, 150, 0];
-
+mover = Mover(map, costmap , [20, 120]);
 
 %% 
 NumPar = 200; 
@@ -66,8 +65,6 @@ end
 zero_hit_x = cos(bestpos(3))*realbeam(1)/10+bestpos(1);
 zero_hit_y = sin(bestpos(3))*realbeam(1)/10+bestpos(2);
 
-pd = pdist([bestpos; mean],'euclidean');
-
 figure(2)
     [X, Y] = find(map);
     plot(X,Y, 'ob', bestpos(1),bestpos(2),'og', robot(:,1),robot(:,2),'.r',mean(:,1),mean(:,2),'xb');
@@ -77,9 +74,6 @@ figure(2)
     legend(num2str(bestfit));
     axis([0 size(map,1) 0 size(map,2)]);
 pause(0.1)
-
-disTurn, targetDis = GetTargetPos( bestpos, bestfit,Robot_controller );
-
 
 %% Resample
 
@@ -99,25 +93,11 @@ end
 
 robot = np;
 %% Real Move
-ang = disTurn*(180/pi);
-ang = ((ang - ( idivide(int32(ang),int32(180))*360))*-1);
-
-Robot_controller.Turn(ang);
-Robot_controller.Move(100,100,targetDis); 
+[turn, move] = mover.MoveTarget(bestpos, bestfit,Robot_controller);
 
 %% 
-turn_noise = 0.5;
-turn = disTurn; 
-
-move = targetDis; 
-move_noise = 5;
-
-
- 
-RealRobot(:,3) = wrapTo2Pi(RealRobot(:,3)+turn);
-RealRobot(:,1) = mod((RealRobot(:,1)-1 + move*cos(RealRobot(:,3))), crateHeigth-1)+1;
-RealRobot(:,2) = mod((RealRobot(:,2)-1 + move*sin(RealRobot(:,3))), crateWidth-1)+1;
-
+turn_noise = 0.3;
+move_noise = 3;
 
 robot(:,3) = wrapTo2Pi(robot(:,3)+turn+randn(size(robot,1),1)*turn_noise);
 robot(:,1) = mod((robot(:,1)-1 + move*cos(robot(:,3))+randn(size(robot,1),1)*move_noise), crateHeigth-1)+1;

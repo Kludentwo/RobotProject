@@ -68,7 +68,11 @@ classdef RobotController
             end
             
             Move(obj.socket,motor1,motor2,t)
-            pause(t/1000+0.5)
+            pause(t/1000+0.2)
+        end;
+        
+        function [] = SmartTurn(obj, phi)
+            NewTurn(phi, obj);
         end;
                
         function delete(obj)

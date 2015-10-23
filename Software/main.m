@@ -9,6 +9,8 @@ init = [ 42 23 ];
 goal = [ size(map) - [ 38 41 ]];
 % Robotcontroller1 = RobotController();
 
+Robot_controller.SmartTurn(81);
+
 scalefactor = 5;
 nuinit = [ idivide(int32(init-1),scalefactor)+1 ];
 numap = ceil(imresize(map,1/scalefactor));
