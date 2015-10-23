@@ -27,7 +27,7 @@ map(1:end,end)=1;
 map(1,1:end)=1;
 map(end,1:end)=1;
 map(1:45,end-66:end-59) = 1;
-map(38:45,end-96:end-66) = 1;
+map(38:45,end-66:end-29) = 1;
 save('smallmap','map')
 
 % Cost map
