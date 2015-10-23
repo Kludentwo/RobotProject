@@ -33,7 +33,7 @@ end
 % end of Arguments block
 
 closed = zeros(size(grid));
-closed(init(1,1),init(1,2)) = 1;
+closed(init(1),init(2)) = 1;
 
 expand = -1*ones(size(grid));
 action = -1*ones(size(grid));
@@ -42,8 +42,8 @@ delta = [[-1, 0 ]; [ 0, -1]; [ 1, 0 ]; [ 0, 1 ]];
 delta_name = ['^'; '<'; 'v'; '>';];
 delta_int = [ 1; 2; 3; 4;];
 
-x = init(1,1);
-y = init(1,2);
+x = init(1);
+y = init(2);
 g = 0;
 h = heuristic(x,y);
 f = g + h;
@@ -58,6 +58,8 @@ while (~found && ~resign)
     if (isempty(open))
         resign = true;
         expand = 'fail';
+        policyvect = [];
+        path = [];
         return;
     else
         open = sortrows(open,1);
@@ -68,7 +70,7 @@ while (~found && ~resign)
         expand(x,y) = count;
         count = count + 1;
         
-        if (x == goal(1,1) && y == goal(1,2))
+        if (x == goal(1) && y == goal(2))
             found = true;
         else
             for i = 1:length(delta)

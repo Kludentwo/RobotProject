@@ -11,12 +11,7 @@ save('bigmap','map')
 costwidth = 25;
 se = strel('square', costwidth);
 costmap = imdilate(map,se);
-% temp = costmap;
-% while (length(find(costmap==0))>0)
-%     temp = (imdilate(temp,se));
-%     costmap = costmap + temp;
-% end
-costmap = (costmap+map)*50);
+costmap = (costmap+map)*50+1;
 figure(1), imshow(costmap/max(max(costmap))), title('Dilated')
 save('bigcostmap','costmap')
 
@@ -34,11 +29,6 @@ save('smallmap','map')
 costwidth = 28;
 se = strel('square', costwidth);
 costmap = imdilate(map,se);
-% temp = costmap;
-% while (length(find(costmap==0))>0)
-%     temp = (imdilate(temp,se));
-%     costmap = costmap + temp;
-% end
-costmap = (costmap+map)*50;
+costmap = (costmap+map)*50+1;
 figure(1), imshow(costmap/max(max(costmap))), title('Dilated')
 save('smallcostmap','costmap')
