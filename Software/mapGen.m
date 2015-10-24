@@ -29,6 +29,6 @@ save('smallmap','map')
 costwidth = 35;
 se = strel('square', costwidth);
 costmap = imdilate(map,se);
-costmap = (costmap+map*25)*2+1;
+costmap = (costmap*4+map*25)*2+1;
 figure(1), imshow(costmap/max(max(costmap))), title('Dilated')
 save('smallcostmap','costmap')
