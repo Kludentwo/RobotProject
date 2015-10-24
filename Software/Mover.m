@@ -54,7 +54,7 @@ classdef Mover  < handle
                 figure(1)
                 scatter([bestpos(1)+alldis.*cos(allang+bestpos(3))/10],[bestpos(2)+alldis.*sin(allang+bestpos(3))/10])
                 hold on
-                scatter([bestpos(1)+maxdis.*cos(maxdisang+bestpos(3))],[bestpos(2)+maxdis.*sin(maxdisang+bestpos(3))])
+                scatter([bestpos(1)+maxdis.*cos(maxdisang*pi/180+bestpos(3))],[bestpos(2)+maxdis.*sin(maxdisang*pi/180+bestpos(3))])
                 hold off
                 
                 Nang = ((ang - ( idivide(int32(ang),int32(180))*360))*-1);
