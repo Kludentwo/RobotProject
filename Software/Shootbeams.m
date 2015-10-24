@@ -1,15 +1,15 @@
-function [ beamCol ] = Shootbeams(robot, map, NObeams,  propeDistance, hitchar)
+function [ beamCol ] = Shootbeams(robot, map, beams,  propeDistance, hitchar)
 %SHOOT Summary of this function goes here
 %   Detailed explanation goes here
+NObeams = size(beams,2);
 
-gap = 2*pi/NObeams; 
 beamCol = zeros(size(robot,1),NObeams);
 
 robot = [robot ones(size(robot,1),1)];
 
 for n = 0: NObeams-1
     distance = 0; 
-    direction = wrapTo2Pi(robot(:,3)+(n*gap));
+    direction = wrapTo2Pi(robot(:,3)+ beams(n+1));
     
     robot(:,4) = 1;
     

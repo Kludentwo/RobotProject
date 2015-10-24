@@ -17,7 +17,7 @@ crateWidth = size(map,2);
 
 
 %%
-sence_noise = 400; 
+sence_noise = 350; 
 RealRobot = [50, 150, 0];
 mover = Mover(map, costmap , [20, 120]);
 
@@ -41,14 +41,13 @@ if bestfit < 0.10
 end
     
 %%    
-    
-beamCol = Shootbeams(robot, map, NObeams, propeDistance,1).*10;
+realbeam = Robot_controller.Shootbeams(NObeams);
+
+beamCol = Shootbeams(robot, map, realbeam(1,:), propeDistance,1).*10;
 
 %% Fitness
 
-realbeam = Robot_controller.Shootbeams(NObeams);%[675 521 354 488 459 690 479 672] ;%Robot_controller.Shootbeams(NObeams);
-
-prob = CalcProb(beamCol,realbeam, sence_noise);
+prob = CalcProb(beamCol,realbeam(2,:), sence_noise);
 alfa = prob/sum(prob);
 %%
 bestfit =  0; 
@@ -62,14 +61,16 @@ end
 
 end
 
-zero_hit_x = cos(bestpos(3))*realbeam(1)/10+bestpos(1);
-zero_hit_y = sin(bestpos(3))*realbeam(1)/10+bestpos(2);
 
 figure(2)
     [X, Y] = find(map);
     plot(X,Y, 'ob', bestpos(1),bestpos(2),'og', robot(:,1),robot(:,2),'.r',mean(:,1),mean(:,2),'xb');
     hold on
-    plot([bestpos(1), zero_hit_x], [bestpos(2), zero_hit_y]);
+    if realbeam(1,1) == 0 
+        zero_hit_x = cos(bestpos(3))*realbeam(2,1)/10+bestpos(1);
+        zero_hit_y = sin(bestpos(3))*realbeam(2,1)/10+bestpos(2);
+        plot([bestpos(1), zero_hit_x], [bestpos(2), zero_hit_y]);
+    end
     hold off
     legend(num2str(bestfit));
     axis([0 size(map,1) 0 size(map,2)]);

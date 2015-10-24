@@ -17,9 +17,9 @@ out = sd(:,all(sd,1));
 maxprop = 0; 
 Robotcontroller1.Turn(deg);
 if deg>0
-    degSign=1;
+    degSign=10;
 else
-    degSign=-1;
+    degSign=-10;
 end
 for n=0:10000
     Robotcontroller1.Turn(degSign); 
@@ -38,8 +38,8 @@ for n=0:10000
     reading = rawreading(1:2,same(1,:));
     target = sd(1:2,same(1,:));
    
-    prop = CalcProb(target(2,:),reading(2,:),5000);
-    if(prop>0.1)
+    prop = CalcProb(target(2,:),reading(2,:),5000)
+    if(prop>0.5)
        
        if(maxprop<prop)
             maxprop = prop; 

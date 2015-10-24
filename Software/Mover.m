@@ -63,7 +63,7 @@ classdef Mover  < handle
                     move = 25;
                 end
                 Robot_controller.SmartTurn(Nang);
-                Robot_controller.Move(101,100,move*0.80);
+                move = Robot_controller.Move(101,100,move*0.8);
                 
                 
                 turn_rad = ang*(pi/180);
@@ -71,19 +71,23 @@ classdef Mover  < handle
                 figure(2)
                 hold on
                 plot(obj.TargetPoint(:,1),obj.TargetPoint(:,2))
+                plot(obj.TargetPoint(obj.PointIndex,1),obj.TargetPoint(obj.PointIndex,2),'+b')
                 hold off
                 pointAng = mod(atan2(obj.TargetPoint(obj.PointIndex,2)-bestpos(2),obj.TargetPoint(obj.PointIndex,1)-bestpos(1)),2*pi);
                 turn_rad = -(bestpos(3) - pointAng);
                 
-                Nang = turn_rad*(180/pi)
+                Nang = turn_rad*(180/pi);
                 Nang = ((Nang - ( idivide(int32(Nang),int32(180))*360))*-1);
                 
-                move = pdist([bestpos(1:2); obj.TargetPoint(obj.PointIndex,:)],'euclidean')
+                move = pdist([bestpos(1:2); obj.TargetPoint(obj.PointIndex,:)],'euclidean');
                 if move > 30
                     move = 30;
                 end
                 
-                if(move < 10)
+                if(move < 5)
+                    move = 0; 
+                    turn_rad = 0; 
+                    Nang = 0;
                     Robot_controller.Stop();
                     if obj.PointIndex == size(obj.TargetPoint,1)
                         beep
@@ -91,9 +95,9 @@ classdef Mover  < handle
                     end
                     obj.PointIndex = obj.PointIndex +1;
                 end
-                
+            
                 Robot_controller.SmartTurn(Nang);
-                Robot_controller.Move(101,100,move*0.80);
+                move = Robot_controller.Move(101,100,move*0.80);
                 
             end
         end
