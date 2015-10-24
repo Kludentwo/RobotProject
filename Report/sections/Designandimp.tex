@@ -25,6 +25,12 @@ The Bluetooth shield is an "ITEAD Wireless Bluetooth Shield Module Starter Kit F
 \subsection{Arduino Uno}
 Arduino Uno\cite{ArduinoUno}.
 the Arduino Uno handles communication with the LIDAR Sensor and the Bluetooth shield.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{billeder/ArduinoUno}
+\caption{Arduino Uno}
+\label{fig:ArduinoUno}
+\end{figure}
 
 \subsection{LIDAR Sensor}
 A LIDAR measurement consists of 90 packets with four range measurements in each. The packet length is 22 bytes and is organised as follows\cite{LIDAR}:
@@ -37,6 +43,26 @@ The $start$ code is 0xFA, $index$ goes from 0xA0 to 0xF9, $speed$ is the fixed p
 <distance 7:0>  <"invalid data" flag> <"strength warning" flag> 
 <distance 13:8> <signal strength 7:0> <signal strength 15:8>
 \end{verbatim}
+The LIDAR, also called Neato LIDAR can be seen in figure \ref{fig:NeatoLidar}.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{billeder/NeatoLidar}
+\caption{Neato LIDAR Sensor}
+\label{fig:NeatoLidar}
+\end{figure}
+The LIDAR has four connects to the sensor part and two to the motor part. The motor connects are 3.3 Volt based with red being power and black being ground. The pinout for the sensor part is seen in table \ref{tab:lidars}.
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+Red & 3.3V \\ \hline
+Brown & LDS\_RX \\ \hline
+Orange & LDS\_TX \\ \hline
+Black & GND \\ \hline
+\end{tabular}
+\caption{LIDAR Sensor Pinout}
+\label{tab:lidars}
+\end{table}
 
 \subsection{Arduino Robot}
 The robot platform used in this project is a Arduino robot\cite{ArduinoRobot}. The Arduino robot platform handles all movement commands.
