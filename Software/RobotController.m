@@ -44,7 +44,7 @@ classdef RobotController
         % robot.Move(-100,100,2320); % full turnaround at speed 100.
         function [moved] = Move(obj, motor1, motor2, distance)
             h = 250;
-            w = 200
+            w = 200;
             
             
             moved = distance;

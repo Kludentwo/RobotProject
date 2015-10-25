@@ -1,0 +1,55 @@
+% Designandimp_Motion
+\subsubsection{Motion}
+The motion of the robot consists of two actions.
+\begin{itemize}
+\item Move forward 
+\item Turn
+\end{itemize}
+Due to the lack of tachometers the robot needs an alternative way of figuring out how far it has moved or turned. The motion commands are therefore mainly based on time.
+
+A general Move command is called by the command \textit{Move( socket, motor1, motor2, time )}, where socket is the bluetooth socket, motor1 is the speed of the right motor, motor2 is the speed of the left motor, both integer values in the range [-127:128], and time is the time in centiseconds.
+
+\textbf{Move forward}\\
+The Move forward command is called by the command \textit{[moved] = Move(obj, motor1, motor2, distance)}, where obj is the robot object, motor1 is the speed of the right motor, motor2 is the speed of the left motor, both integer values in the range [-127:128], and distance is the distance in cm. The moved parameter is the output of the Move forward command and contains the actual distance moved, based on LIDAR data.
+
+This function consists of 2 parts. 
+\begin{itemize}
+\item Calculation of the time the robot must move to reach the desired distance.
+\item Make sure that the robot does not bump into anything.
+\end{itemize}
+To find the time it takes for the robot to move, a measurement was made. The robot was placed behind a line, and different times were given to the function. The distance the robot travelled was then measured. In the end a function was fitted to the curve, and this function is the basic of the Move function.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{billeder/MoveForwardGraph.pdf}
+\caption{Measurement of Move forward}\label{MoveForwardGraph}
+\end{figure} 
+
+The main problem is that when the robot is using up battery, it does not move as far in the same given time as when it is fully charged. Therefore a measurement is made with the LIDAR before and after the movement to get a better fit of how far the robot actually moved. The measurement takes account of failing measurements, so that if the measurement straight ahead fails, it will use the nearest angle instead. The two distances is then calculated using trigonometry.
+The difference between the two distances is the actual movement of the robot, and it is this value that is returned from the function.
+The reason why LIDAR is not used directly to move a specific distance is the update rate of the LIDAR data. It is simply too slow. The function then calls the general Move command with the calculated time.
+
+Despite the fact that the LIDAR has a slow update rate, it is used as a safe distance detection. If an object is detected in the area shown in figure \ref{MotionBumper}, the robot stops its movement and the function returns the moved distance. Due to the slow update rate of the LIDAR, the safe distance is relatively high. In the project, the forward safety distance is set to 250 mm. and the safety distance to each side is 200 mm.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{billeder/MotionBumper.png}
+\caption{Area of bump detection. The robot is facing up.}\label{MotionBumper}
+\end{figure} 
+
+\textbf{Turn}\\
+The Turn command is called by the command \textit{Turn(obj, phi)}, where obj is the robot object and phi is the turning angle in degrees. The range of phi is [-180:180] with decimals accepted. This function calculates the time it will take for the robot to turn to the angle received, and calls the general Move function with one motor in reverse and the other in forward position. 
+To get a way to calculate the time, a measurement similar to the on for the Move forward function was made. The robot was placed at a point and a mark was made where it had its 0 degrees. Then the general move function was called with different times and the angle the robot turned was measured. Figure \ref{TurnRightGraph} and \ref{TurnLeftGraph} shows the result of the measurements.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{billeder/TurnRightGraph.pdf}
+\caption{Measurement of Turn right}\label{TurnRightGraph}
+\end{figure} 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{billeder/TurnLeftGraph.pdf}
+\caption{Measurement of Turn left}\label{TurnLeftGraph}
+\end{figure} 
+
+The same problem with the battery power arises in this function. Therefore a scanning is made by the LIDAR before the turn is performed. After the turn is made, the LIDAR scans again and the robot compares the two measurements by convolution. Then it starts to step one degree until a maximum in the convolution is found. This is then expected to be a more correct guess of the desired angle.

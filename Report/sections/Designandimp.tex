@@ -12,6 +12,7 @@ The overall system design can be seen in figure \ref{fig:OSD}. The connection be
 
 \subsection{Computer}
 The computer has the responsibility to take the measurement data from the Bluetooth shield and process it. The processing is done in Matlab. 
+\input{sections/Designandimp_Motion}
 
 \subsection{Bluetooth shield}
 The Bluetooth shield is an "ITEAD Wireless Bluetooth Shield Module Starter Kit For Arduino"\cite{BTshield}\cite{BTshield2}. The responsibility of the Bluetooth shield is to transfer data from the Arduino Uno to the Computer. The shield uses a HC-05 Serial Bluetooth module. Connecting to the shield is done by finding "H-C-2010-06-01" on the Computer and using the password: "1234". The settings for the serial bus is:
