@@ -1,7 +1,6 @@
 \section{Design \& Implementation}
-This section contains information about the design and implementation of the robot in this project.
+The system is created as a simple robot that can receive move instructions, and take measurements. The move instructions come from a PC running MATLAB. By receiving the measurement data the MATLAB application calculates the best movement action, and send it to the robot. 
 
-\subsection{Overall Design}
 The overall system design can be seen in figure \ref{fig:OSD}. The connection between the Computer and the Bluetooth shield is wireless. The connection between the Bluetooth shield and the Arduino Uno is serial. The connection between the Arduino Uno and LIDAR Sensor is serial and lastly the connection between the Arduino Robot and the Arduino Uno is i2c.
 \begin{figure}[H]
 \centering
@@ -9,12 +8,9 @@ The overall system design can be seen in figure \ref{fig:OSD}. The connection be
 \caption{Overall System Design}
 \label{fig:OSD}
 \end{figure}
+Each block in the system will now be discussed in greater detail. 
 
-\subsection{Computer}
-The computer has the responsibility to take the measurement data from the Bluetooth shield and process it. The processing is done in Matlab. 
-\input{sections/Designandimp_Motion}
-
-\subsection{Bluetooth shield}
+\subsubsection{Bluetooth shield}
 The Bluetooth shield is an "ITEAD Wireless Bluetooth Shield Module Starter Kit For Arduino"\cite{BTshield}\cite{BTshield2}. The responsibility of the Bluetooth shield is to transfer data from the Arduino Uno to the Computer. The shield uses a HC-05 Serial Bluetooth module. Connecting to the shield is done by finding "H-C-2010-06-01" on the Computer and using the password: "1234". The settings for the serial bus is:
 \begin{itemize}
 \item Default baud rate: 9600
@@ -23,17 +19,9 @@ The Bluetooth shield is an "ITEAD Wireless Bluetooth Shield Module Starter Kit F
 \item No parity
 \end{itemize}
 
-\subsection{Arduino Uno}
-Arduino Uno\cite{ArduinoUno}.
-the Arduino Uno handles communication with the LIDAR Sensor and the Bluetooth shield.
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.5]{billeder/ArduinoUno}
-\caption{Arduino Uno}
-\label{fig:ArduinoUno}
-\end{figure}
+This means that the Bluetooth connection can be seen as a simple uart connection between the robot and the computer. 
 
-\subsection{LIDAR Sensor}
+\subsubsection{LIDAR Sensor}
 A LIDAR measurement consists of 90 packets with four range measurements in each. The packet length is 22 bytes and is organised as follows\cite{LIDAR}:
 \begin{verbatim}
 <start> <index> <speed_L> <speed_H> [Data 0] [Data 1] [Data 2] [Data 3]
@@ -65,8 +53,40 @@ Black & GND \\ \hline
 \label{tab:lidars}
 \end{table}
 
-\subsection{Arduino Robot}
+The motor is a simple DC-motor. But for a correct operation the Neato LIDAR must spin with more than 180 RPM and less than 350 RPM. The group found that a spin speed around 310 RPM gave the optimal sensor readings. This can be regulated using the speed information in the LIDAR data packets. The value in the speed bytes is formatted as RPM*64. So in order to get the RPM one must simply divide the value by 64. The group attained the optimal rotation speed, by regulating a PWM signal, on the motor. 
+
+\subsubsection{Arduino Uno}
+The Arduino Uno\cite{ArduinoUno} handles communication with the LIDAR Sensor and the Bluetooth shield.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{billeder/ArduinoUno}
+\caption{Arduino Uno}
+\label{fig:ArduinoUno}
+\end{figure}
+
+The LIDAR data is streamed to the Arduino Uno contentiously with a baud rate on 115200. Therefore is the only hardware UART used to handle this. The data is stored in a internal array for later retrieval.
+
+Since there is only one hardware UART on the Arduino Uno, and both the LIDAR and the bluetooth shield needs one, a software serial port is created to handle the bluetooth communication. 
+
+The Arduino Uno is listening for commands, on the bluetooth connection. A command is formatted as follows: 
+\begin{verbatim}
+		<command ID 1> <command ID 2> [Command parameters ] < 0x0A ('\n') >
+\end{verbatim}
+
+The following commands is handled by the Arduino Uno: 
+
+\begin{tabbing}	
+LID \= AR:\\
+\>{Command1: [LD D/S/P/E]} \\
+
+\end{tabbing}	
+
+  
+
+\subsubsection{Arduino Robot}
 The robot platform used in this project is a Arduino robot\cite{ArduinoRobot}. The Arduino robot platform handles all movement commands.
 
+\input{sections/Designandimp_Motion}
  
 %------------------------------------------------
