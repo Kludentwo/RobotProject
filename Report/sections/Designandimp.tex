@@ -18,7 +18,6 @@ The Bluetooth shield is an "ITEAD Wireless Bluetooth Shield Module Starter Kit F
 \item Stop bit: 1
 \item No parity
 \end{itemize}
-
 This means that the Bluetooth connection can be seen as a simple uart connection between the robot and the computer. 
 
 \subsubsection{LIDAR Sensor}
@@ -52,12 +51,10 @@ Black & GND \\ \hline
 \caption{LIDAR Sensor Pinout}
 \label{tab:lidars}
 \end{table}
-
 The motor is a simple DC-motor. But for a correct operation the Neato LIDAR must spin with more than 180 RPM and less than 350 RPM. The group found that a spin speed around 310 RPM gave the optimal sensor readings. This can be regulated using the speed information in the LIDAR data packets. The value in the speed bytes is formatted as RPM*64. So in order to get the RPM one must simply divide the value by 64. The group attained the optimal rotation speed, by regulating a PWM signal, on the motor. 
 
 \subsubsection{Arduino Uno}
 The Arduino Uno\cite{ArduinoUno} handles communication with the LIDAR Sensor and the Bluetooth shield.
-
 \begin{figure}[H]
 \centering
 \includegraphics[scale=1]{billeder/ArduinoUno}
@@ -73,9 +70,7 @@ The Arduino Uno is listening for commands, on the bluetooth connection. A comman
 \begin{verbatim}
 		<command ID 1> <command ID 2> [Command parameters ] < 0x0A ('\n') >
 \end{verbatim}
-
 The following commands is handled by the Arduino Uno: 
-
 \begin{tabbing}	
 {LID}\={AR:}\\
 \>{Comm}\={and1: [LD D/S/P/E]} \\
@@ -88,8 +83,6 @@ The following commands is handled by the Arduino Uno:
 \> \> {P er en 2 byte værdi som big endian værdien er RPM*64} \\
 \> \> {E er samme format som D og S, bortes fra at den kun har 360 x 1 byte} \\
 \end{tabbing}	
-
-  
 
 \subsubsection{Arduino Robot}
 The robot platform used in this project is a Arduino robot\cite{ArduinoRobot}. The Arduino robot platform handles all movement commands. This is done with two boards, the motor board and the control board. 
@@ -105,5 +98,6 @@ When equipped with the Arduino Uno, LIDAR Sensor and the Bluetooth shield, the p
 \end{figure}
 
 \input{sections/Designandimp_Motion}
+\input{sections/Designandimp_Planning}
  
 %------------------------------------------------

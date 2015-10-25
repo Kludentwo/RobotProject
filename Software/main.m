@@ -3,13 +3,13 @@
 % clear all; close all; clc;
 
 % Defines og inits osv.
-load('map.mat');
+load('smallmap.mat');
 delta = [[-1, 0 ]; [ 0, -1]; [ 1, 0 ]; [ 0, 1 ]];
 init = [ 42 23 ];
 goal = [ size(map) - [ 38 41 ]];
 % Robotcontroller1 = RobotController();
 
-Robot_controller.SmartTurn(81);
+%Robot_controller.SmartTurn(81);
 
 scalefactor = 5;
 nuinit = [ idivide(int32(init-1),scalefactor)+1 ];
@@ -18,7 +18,7 @@ nugoal = [ idivide(int32(goal-1),scalefactor)+1 ];
 
 % cost = numap * 80 + 1;
 % cost = imgaussfilt(cost,2)*10;
-load('costmap','costmap');
+load('smallcostmap','costmap');
 nucostmap = ceil(imresize(costmap,1/scalefactor));
 cost = nucostmap*20+1;
 
