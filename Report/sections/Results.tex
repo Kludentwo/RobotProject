@@ -1,8 +1,4 @@
 \section{Results}
-Localisation results.\\
-
-%Results when the goal is [ 20 120 ].\\
-\subsection{Results of a run in the test arena}
 Here the results, of a run in the test arena with a random initial position and a goal in [20, 120], will be shown.
 Figure \ref{ResultDriveFig1} shows how the robot initially tries to find its own location, using the particle filter. The number of particles is 200. It drives towards the farthest point read by the LIDAR while analysing its surroundings. In figure \ref{ResultDriveFig1:sub5} we see that the probability of a particle is over the threshold of 70\%, so the robots starts to plan its way towards the goal, using A*. 
 \begin{figure}[H]
@@ -100,7 +96,7 @@ Figure \ref{ResultDriveFig2} shows the robot trying to make it towards the point
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=.7\linewidth]{billeder/Results/real13.png}
-  \caption{}
+  \caption{Step 13}
   \label{ResultDriveFig3:sub2}
 \end{subfigure}
 \begin{subfigure}{.5\textwidth}

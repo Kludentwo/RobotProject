@@ -9,7 +9,7 @@ Due to the lack of tachometers the robot needs an alternative way of figuring ou
 
 A general Move command is called by the command \textit{Move( socket, motor1, motor2, time )}, where socket is the bluetooth socket, motor1 is the speed of the right motor, motor2 is the speed of the left motor, both integer values in the range [-255:255], and time is the time in milliseconds.
 
-\textbf{Move forward}\\
+\subsubsection{Move forward}
 The Move forward command is called by the command \textit{[moved] = Move(obj, motor1, motor2, distance)}, where obj is the robot object, motor1 is the speed of the right motor, motor2 is the speed of the left motor, both integer values in the range [-255:255], and distance is the distance in cm. The moved parameter is the output of the Move forward command and contains the actual distance moved, based on LIDAR data.
 
 This function consists of 2 parts. 
@@ -37,7 +37,7 @@ Despite the fact that the LIDAR has a slow update rate, it is used as a safe dis
 \caption{Area of bump detection. The robot is facing up.}\label{MotionBumper}
 \end{figure} 
 
-\textbf{Turn}\\
+\subsubsection{Turn}
 The Turn command is called by the command \textit{Turn(obj, phi)}, where obj is the robot object and phi is the turning angle in degrees. The range of phi is [-180:180] with decimals accepted. This function calculates the time it will take for the robot to turn to the angle received, and calls the general Move function with one motor in reverse and the other in forward position. 
 To get a way to calculate the time, a measurement similar to the on for the Move forward function was made. The robot was placed at a point and a mark was made where it had its 0 degrees. Then the general move function was called with different times and the angle the robot turned was measured. Figure \ref{TurnRightGraph} and \ref{TurnLeftGraph} shows the result of the measurements.
 
