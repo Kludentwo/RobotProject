@@ -76,16 +76,16 @@ The following commands is handled by the Arduino Uno:
 \> \> S: Signal strength\\
 \> \> P: Rotor speed\\
 \> \> E: Error codes\\
-\> Returværdi:\\
-\> \> {For D og S er svaret: Array af 360 x 2 bytes big endian (Den første er altid 0 grader)} \\ \> \> {(Distance er mm)} \\
-\> \> {P er en 2 byte værdi som big endian værdien er RPM*64} \\
-\> \> {E er samme format som D og S, bortes fra at den kun har 360 x 1 byte} \\
+\> return value:\\
+\> \> {For D and S are the response: Array of 360 x 2 bytes big endian (the first is 0 deg)} \\ \> \> {(Distance in mm)} \\
+\> \> {P are 2 byte value as big endian. Format are RPM*64} \\
+\> \> {E is the same as D og S, excepted the array is only at size 360 x 1 byte} \\
 \\
 \> Command2: <U> <P> <\textbackslash n>\\
-\> Returværdi: \\
-\> \> 1 byte \= formateret som: \\
-\> \> \>{[0x00] hvis ingen LIDAR data er tilgængelig.} \\
-\> \> \>{[0x01] hvis LIDAR date er tilgængelig.} 
+\> return value: \\
+\> \> 1 byte \= formatted as: \\
+\> \> \>{[0x00] if no LIDAR data is available.} \\
+\> \> \>{[0x01] if LIDAR data is available.} 
 
 \end{tabbing}	
 
