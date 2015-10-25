@@ -11,8 +11,10 @@ The overall system design can be seen in figure \ref{fig:OSD}. The connection be
 \end{figure}
 
 \subsection{Computer}
-The computer has the responsibility to take the measurement data from the Bluetooth shield and process it. The processing is done in Matlab. 
+The computer has the responsibility to take the measurement data from the Bluetooth shield and process it. The processing is done in Matlab. The Matlab part can be divided into three sections, Particle filter, Motion Control and Path Planning.
 \input{sections/Designandimp_Motion}
+\input{sections/Designandimp_Planning}
+
 
 \subsection{Bluetooth shield}
 The Bluetooth shield is an "ITEAD Wireless Bluetooth Shield Module Starter Kit For Arduino"\cite{BTshield}\cite{BTshield2}. The responsibility of the Bluetooth shield is to transfer data from the Arduino Uno to the Computer. The shield uses a HC-05 Serial Bluetooth module. Connecting to the shield is done by finding "H-C-2010-06-01" on the Computer and using the password: "1234". The settings for the serial bus is:
@@ -66,7 +68,16 @@ Black & GND \\ \hline
 \end{table}
 
 \subsection{Arduino Robot}
-The robot platform used in this project is a Arduino robot\cite{ArduinoRobot}. The Arduino robot platform handles all movement commands.
-
+The robot platform used in this project is a Arduino robot\cite{ArduinoRobot}. The Arduino robot platform handles all movement commands. This is done with two boards, the motor board and the control board. 
+Both boards are fitted with ATmega32u4 microcontrollers. The motor board has two motors, a power bank, various communication busses, ir sensors and an on/off switch along with the microcontroller. 
+The motors are of the type DC. They are controlled with a pwm signal.\\
+The Control board is fitted with a speaker, external memory, various communication busses, a compass and the possibility for a LCD display.\\
+When equipped with the Arduino Uno, LIDAR Sensor and the Bluetooth shield, the platform can be seen in figure \ref{fig:fullplatform}.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{billeder/fullplatform}
+\caption{full platform}
+\label{fig:fullplatform}
+\end{figure}
  
 %------------------------------------------------
