@@ -118,6 +118,14 @@ The robot receives movement commands from the Arduino Uno and react on them. The
 In this section the control actions done by the computer will be explained. The control program consists of the three sub components localisation, motion and planning. The aim of the control program is to first localize the robot. When this is achieved it must calculate a route to the desired goal, and move correctly to the goal. 
 
 \input{sections/Designandimp_Motion}
+
+\subsection{Localisation Using Particle Filter}
+In order to localize the robot a particle filter was used. The filter works by following a series of steps. 
+
+\textbf{Step 1: Initialize the filter}\\
+First 200 particles was created and given a random position and rotation on the map. In MATLAB this is simply a big 3x200 matrix with $[x, y, phi]$ for each of the 200 particles. 
+ 
+
 \input{sections/Designandimp_Planning}
  
 %------------------------------------------------
