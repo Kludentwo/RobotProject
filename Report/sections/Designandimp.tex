@@ -62,18 +62,16 @@ The Arduino Uno\cite{ArduinoUno} handles communication with the LIDAR Sensor and
 \label{fig:ArduinoUno}
 \end{figure}
 
-The LIDAR data is streamed to the Arduino Uno contentiously with a baud rate on 115200. Therefore is the only hardware UART used to handle this. The data is stored in a internal array for later retrieval.
+The LIDAR data is streamed to the Arduino Uno contentiously with a baud rate on 115200. To handle the fast data rate the only hardware UART is used. The data is stored in a internal array for later retrieval.
 
-Since there is only one hardware UART on the Arduino Uno, and both the LIDAR and the bluetooth shield needs one, a software serial port is created to handle the bluetooth communication. 
-
-The Arduino Uno is listening for commands, on the bluetooth connection. A command is formatted as follows: 
+Since there is only one hardware UART on the Arduino Uno, and both the LIDAR and the bluetooth shield needs one, a software serial port is created to handle the bluetooth communication. The Arduino Uno is listening for commands, on the bluetooth connection. A command is formatted as follows:
 \begin{verbatim}
-		<command ID 1> <command ID 2> [Command parameters ] < 0x0A ('\n') >
+<command ID 1> <command ID 2> [Command parameters ] < 0x0A ('\n') >
 \end{verbatim}
 The following commands is handled by the Arduino Uno: 
 \begin{tabbing}	
 {LID}\={AR:}\\
-\>{Comm}\={and1: [LD D/S/P/E]} \\
+\>{Comm}\={and1: <L> <D> <D/S/P/E> <\textbackslash n>} \\
 \> \> D: Distance \\
 \> \> S: Signal strength\\
 \> \> P: Rotor speed\\
@@ -82,7 +80,16 @@ The following commands is handled by the Arduino Uno:
 \> \> {For D og S er svaret: Array af 360 x 2 bytes big endian (Den første er altid 0 grader)} \\ \> \> {(Distance er mm)} \\
 \> \> {P er en 2 byte værdi som big endian værdien er RPM*64} \\
 \> \> {E er samme format som D og S, bortes fra at den kun har 360 x 1 byte} \\
+\\
+\> Command2: <U> <P> <\textbackslash n>\\
+\> Returværdi: \\
+\> \> 1 byte \= formateret som: \\
+\> \> \>{[0x00] hvis ingen LIDAR data er tilgængelig.} \\
+\> \> \>{[0x01] hvis LIDAR date er tilgængelig.} 
+
 \end{tabbing}	
+
+If any other commands is received, they are sent to the Arduino Robot over the I2C interface. 
 
 \subsubsection{Arduino Robot}
 The robot platform used in this project is a Arduino robot\cite{ArduinoRobot}. The Arduino robot platform handles all movement commands. This is done with two boards, the motor board and the control board. 
@@ -96,6 +103,16 @@ When equipped with the Arduino Uno, LIDAR Sensor and the Bluetooth shield, the p
 \caption{full platform}
 \label{fig:fullplatform}
 \end{figure}
+
+The robot receives movement commands from the Arduino Uno and react on them. The Commands follows the same structure as the LIDAR commands. The Commands accepted by the robot is: 
+
+\begin{tabbing}	
+{Mot}\={or:}\\
+\> {Comm}\={and: <M> <O> $[$Motor1$]$ $[$Motor2$]$ $[$Time$]$ <\textbackslash n> } \\
+\> \> motor1 speed - 2 byte (-255 - 255) big endian \\
+\> \> motor2 speed - 2 byte (-255 - 255) big endian\\
+\> \> Time   - 2 byte big endian in ms.
+\end{tabbing}	
 
 \input{sections/Designandimp_Motion}
 \input{sections/Designandimp_Planning}
