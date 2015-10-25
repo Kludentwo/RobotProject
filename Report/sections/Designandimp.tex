@@ -77,9 +77,16 @@ The Arduino Uno is listening for commands, on the bluetooth connection. A comman
 The following commands is handled by the Arduino Uno: 
 
 \begin{tabbing}	
-LID \= AR:\\
-\>{Command1: [LD D/S/P/E]} \\
-
+{LID}\={AR:}\\
+\>{Comm}\={and1: [LD D/S/P/E]} \\
+\> \> D: Distance \\
+\> \> S: Signal strength\\
+\> \> P: Rotor speed\\
+\> \> E: Error codes\\
+\> Returværdi:\\
+\> \> {For D og S er svaret: Array af 360 x 2 bytes big endian (Den første er altid 0 grader)} \\ \> \> {(Distance er mm)} \\
+\> \> {P er en 2 byte værdi som big endian værdien er RPM*64} \\
+\> \> {E er samme format som D og S, bortes fra at den kun har 360 x 1 byte} \\
 \end{tabbing}	
 
   
