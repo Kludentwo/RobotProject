@@ -123,10 +123,10 @@ In this section the control actions done by the computer will be explained. The 
 In order to localize the robot a particle filter was used. The filter works by following a series of steps. 
 
 \textbf{Step 1: Initialize the filter}\\
-First 200 particles was created and given a random position and rotation on the map. In MATLAB this is simply a big 3x200 matrix with $[x, y, phi]$ for each of the 200 particles. 
+First 200 particles was created and given a random position and orientation on the map. In MATLAB this is simply a big 3x200 matrix with $[x, y, phi]$ for each of the 200 particles. 
 
 \textbf{Step 2: Getting The Robot Measurement}\\
-At this step we get the robot measurement. But even though all 360 measurements would give a very precise filter, the time it will take calculate the particle distances in 360 degrease would be to long. In this project we have chosen to use 20 measurements, but less can in theory be used. The less measurements that are used in the filter, the bigger the risk of getting symmetric error locations. These locations will die over time, but for a system with too few measurements it can take quiet a while. 
+At this step we get the robot measurement. But even though all 360 measurements would give a very precise filter, the time it will take calculate the particle distances in 360 degrease would be too long. In this project we have chosen to use 20 measurements, but less can in theory be used. The less measurements that are used in the filter, the bigger the risk of getting symmetric error locations. These locations will die over time, but for a system with too few measurements it can take quiet a while. 
 
 The data from the robot is a series of distances and angels. If we plot this for our robot it can look like shown on figure \ref{RobotData}.
 
@@ -165,10 +165,10 @@ By comparing each particles measurements to the real robots measurements the pro
 A important factor here is the noise that indicates how mush a particle and the real robots measurements can differ, and still be a good fit. The noise must be set fairly high since we also what particle close to the true value to survive, and not just the ones on the true value. 
 
 \textbf{Step 5: Finding The Best Fit}\\
-At some point we need to decide where the robot is, according to the particle information. There is many approaches that can be used to decide this. Some look at the mean value, others look at clusters. In this implementation we have taken a simple approach and taken the particle with the highest probability and selected as our guess on the robot location. 
+At some point we need to decide where the robot is, according to the particle information. There is many approaches that can be used to decide this. Some look at the mean value, others look at clusters. In our implementation we took a simple approach and took the particle with the highest probability and selected as our guess on the robot location. 
 
 \textbf{Step 6: Resample Or Reset}\\
-Now it is time to do the resampling of the particles. This only make sence if there we have atleast one good estimate since a resampling basically focuses the filter around the best guesses. If all guesses are bad, it will focus around random bad guesses. To counter effect this will the filter restart and go back to step 1 if the best guess is under 10\% certainty. By doing this we force the filter to reset if it have no clue where the robot is. 
+Now it is time to do the resampling of the particles. This only make sense if there is atleast one good estimate since a resampling basically focuses the filter around the best guesses. If all guesses are bad, it will focus around random bad guesses. To counter effect this we made the filter restart and go back to step 1 if the best guess is under 10\% certainty. By doing this we force the filter to reset if it have no clue where the robot is. 
 
 \textbf{Step 7: Move the robot}\\
 In order to get a better estimate more information must be given to the filter. This can only be achieved if the robot moves. When the robot does not know where it is it can simply move randomly around. To simplify this behaviour we have made the robot move in the longest free direction it can see with the LIDAR. 
@@ -178,8 +178,7 @@ If the robot have a good guess on its location at this point it moves towards th
 \textbf{Step 8: Updating the filter}\\
 The filter is now updated by moving and turning all the particles the same amount as the real robot just did. In addition to the move, all particles are also moved and turn a little bit at random. This is to simulate the effect of the noise in the robot movement. After this step we go back to step 2 and continues from there in a never ending loop. 
 
-After a few iterations the filter will collect all particles in a small cloud around the robot position. The with and height of the cloud is detriment by the movement noise, and the noise in particle probability equation. Finding good values for the noise model is critical for a well functioning filter. In our small project fixed values was used that was found over a process of trail and error. But similar values could be found by creating a noise model for the robot and LIDAR. In more advanced implementations it is also common to use a adaptive approach changing the values on the fly. 
-
+After a few iterations the filter will collect all particles in a small cloud around the robot position. The width and height of the cloud is detriment by the movement noise, and the noise in particle probability equation. Finding good values for the noise model is critical for a well functioning filter. In our small project fixed values was used that was found over a process of trail and error.  Similar values could be found by creating a noise model for the robot and LIDAR. In more advanced implementations it is also common to use a adaptive approach changing the values on the fly. 
 \input{sections/Designandimp_Planning}
  
 %------------------------------------------------
