@@ -10,7 +10,17 @@ The overall system design can be seen in figure \ref{fig:OSD}. The connection be
 \end{figure}
 Each block in the system will now be discussed in greater detail. 
 
+<<<<<<< HEAD
 \subsubsection{Bluetooth shield}
+=======
+\subsection{Computer}
+The computer has the responsibility to take the measurement data from the Bluetooth shield and process it. The processing is done in Matlab. The Matlab part can be divided into three sections, Particle filter, Motion Control and Path Planning.
+\input{sections/Designandimp_Motion}
+\input{sections/Designandimp_Planning}
+
+
+\subsection{Bluetooth shield}
+>>>>>>> 969b36950e63bad361312d67a97c906522a167e4
 The Bluetooth shield is an "ITEAD Wireless Bluetooth Shield Module Starter Kit For Arduino"\cite{BTshield}\cite{BTshield2}. The responsibility of the Bluetooth shield is to transfer data from the Arduino Uno to the Computer. The shield uses a HC-05 Serial Bluetooth module. Connecting to the shield is done by finding "H-C-2010-06-01" on the Computer and using the password: "1234". The settings for the serial bus is:
 \begin{itemize}
 \item Default baud rate: 9600
@@ -53,6 +63,7 @@ Black & GND \\ \hline
 \label{tab:lidars}
 \end{table}
 
+<<<<<<< HEAD
 The motor is a simple DC-motor. But for a correct operation the Neato LIDAR must spin with more than 180 RPM and less than 350 RPM. The group found that a spin speed around 310 RPM gave the optimal sensor readings. This can be regulated using the speed information in the LIDAR data packets. The value in the speed bytes is formatted as RPM*64. So in order to get the RPM one must simply divide the value by 64. The group attained the optimal rotation speed, by regulating a PWM signal, on the motor. 
 
 \subsubsection{Arduino Uno}
@@ -85,6 +96,11 @@ LID \= AR:\\
   
 
 \subsubsection{Arduino Robot}
+The robot platform used in this project is a Arduino robot\cite{ArduinoRobot}. The Arduino robot platform handles all movement commands.
+
+\input{sections/Designandimp_Motion}
+=======
+\subsection{Arduino Robot}
 The robot platform used in this project is a Arduino robot\cite{ArduinoRobot}. The Arduino robot platform handles all movement commands. This is done with two boards, the motor board and the control board. 
 Both boards are fitted with ATmega32u4 microcontrollers. The motor board has two motors, a power bank, various communication busses, ir sensors and an on/off switch along with the microcontroller. 
 The motors are of the type DC. They are controlled with a pwm signal.\\
@@ -96,7 +112,6 @@ When equipped with the Arduino Uno, LIDAR Sensor and the Bluetooth shield, the p
 \caption{full platform}
 \label{fig:fullplatform}
 \end{figure}
-
-\input{sections/Designandimp_Motion}
+>>>>>>> 969b36950e63bad361312d67a97c906522a167e4
  
 %------------------------------------------------
