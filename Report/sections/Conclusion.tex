@@ -3,13 +3,16 @@
 \item Antallet af partikler i forhold til map size
 \item When to reset/resample
 \item Precision af partikel filter
-\item Generelt om robottens movement (René)
-\item Hvordan vi anvender planning
 \end{itemize}
-
+% Motors and PID
+The motors were not fitted with tachometers which meant there was no way of getting reliable information about the wheels movement. This made it hard to determine the distance driven and the drift to either side. As a direct consequence of this, PID control and path smoothing was not used as the implementation of the PID controller would have been very complex and only relying on measurements from the LIDAR sensor. It was chosen that the PID controller implementation was out of the scope of this project. \\
+% Planning
+When a path plan is made, the plan is made from single centimetre steps into a  few coordinate sets. This is done because the robot has a hard time following the line and because of the lack of information from the wheels. When the robot is sufficiently close to one of the coordinate points, it will turn and head towards the next.
 % Generelt om robottens movement (René)
-From the result it can be seen that the robot uses a lot of steps to achieve its goal after the correct path is found. This is mainly because the robot is not very certain of its own position, since most steps happens when it tries to get close to the point. 
+From the result it can be seen that the robot uses a lot of steps to achieve its goal after the correct path is found. This is mainly because the robot is not very certain of its own position, since most steps happens when it tries to get close to the point.\\
 Another problem that was often seen during the previous testing, was that the robot drifted to one side. This was somewhat solved by giving one motor a slightly higher speed than the other. The drifting error became higher the longer the robot drove in one step. Therefore the maximal distance to drive was also set to 30 cm. This gives the robot a higher precision in movements, but it also results in more movements when longer routes are planned.
-The Move forward function was not corrected the same way as the Turn function was. If it was corrected directly by reversing, if the robot drove too far, some of the overshoots may have been avoided.
+The Move forward function was not corrected the same way as the Turn function was. If it was corrected directly by reversing, if the robot drove too far, some of the overshoots may have been avoided.\\
+
+
 
 \chapter{Conclusion}
