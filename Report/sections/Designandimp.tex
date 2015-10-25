@@ -1,4 +1,4 @@
-\section{Design \& Implementation}
+\section{The Robot Platform}
 The system is created as a simple robot that can receive move instructions, and take measurements. The move instructions come from a PC running MATLAB. By receiving the measurement data the MATLAB application calculates the best movement action, and send it to the robot. 
 
 The overall system design can be seen in figure \ref{fig:OSD}. The connection between the Computer and the Bluetooth shield is wireless. The connection between the Bluetooth shield and the Arduino Uno is serial. The connection between the Arduino Uno and LIDAR Sensor is serial and lastly the connection between the Arduino Robot and the Arduino Uno is i2c.
@@ -113,6 +113,9 @@ The robot receives movement commands from the Arduino Uno and react on them. The
 \> \> motor2 speed - 2 byte (-255 - 255) big endian\\
 \> \> Time   - 2 byte big endian in ms.
 \end{tabbing}	
+
+\section{MATLAB Controller}
+In this section the control actions done by the computer will be explained. The control program consists of the three sub components localisation, motion and planning. The aim of the control program is to first localize the robot. When this is achieved it must calculate a route to the desired goal, and move correctly to the goal. 
 
 \input{sections/Designandimp_Motion}
 \input{sections/Designandimp_Planning}

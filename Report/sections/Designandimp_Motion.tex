@@ -7,10 +7,10 @@ The motion of the robot consists of two actions.
 \end{itemize}
 Due to the lack of tachometers the robot needs an alternative way of figuring out how far it has moved or turned. The motion commands are therefore mainly based on time.
 
-A general Move command is called by the command \textit{Move( socket, motor1, motor2, time )}, where socket is the bluetooth socket, motor1 is the speed of the right motor, motor2 is the speed of the left motor, both integer values in the range [-127:128], and time is the time in centiseconds.
+A general Move command is called by the command \textit{Move( socket, motor1, motor2, time )}, where socket is the bluetooth socket, motor1 is the speed of the right motor, motor2 is the speed of the left motor, both integer values in the range [-255:255], and time is the time in milliseconds.
 
 \textbf{Move forward}\\
-The Move forward command is called by the command \textit{[moved] = Move(obj, motor1, motor2, distance)}, where obj is the robot object, motor1 is the speed of the right motor, motor2 is the speed of the left motor, both integer values in the range [-127:128], and distance is the distance in cm. The moved parameter is the output of the Move forward command and contains the actual distance moved, based on LIDAR data.
+The Move forward command is called by the command \textit{[moved] = Move(obj, motor1, motor2, distance)}, where obj is the robot object, motor1 is the speed of the right motor, motor2 is the speed of the left motor, both integer values in the range [-255:255], and distance is the distance in cm. The moved parameter is the output of the Move forward command and contains the actual distance moved, based on LIDAR data.
 
 This function consists of 2 parts. 
 \begin{itemize}
