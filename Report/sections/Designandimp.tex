@@ -126,7 +126,7 @@ In order to localize the robot a particle filter was used. The filter works by f
 First 200 particles was created and given a random position and orientation on the map. In MATLAB this is simply a big 3x200 matrix with $[x, y, phi]$ for each of the 200 particles. 
 
 \textbf{Step 2: Getting The Robot Measurement}\\
-At this step we get the robot measurement. But even though all 360 measurements would give a very precise filter, the time it will take calculate the particle distances in 360 degrease would be too long. In this project we have chosen to use 20 measurements, but less can in theory be used. The less measurements that are used in the filter, the bigger the risk of getting symmetric error locations. These locations will die over time, but for a system with too few measurements it can take quiet a while. 
+At this step we get the robot measurement. But even though all 360 measurements would give a very precise filter, the time it would take to calculate the particle distances in 360 degrease would be too long. In this project we have chosen to use 20 measurements, but less can in theory be used. The less measurements that are used in the filter, the bigger the risk of getting symmetric error locations. These locations will die over time, but for a system with too few measurements it can take quiet a while. 
 
 The data from the robot is a series of distances and angels. If we plot this for our robot it can look like shown on figure \ref{RobotData}.
 
@@ -146,11 +146,11 @@ The data from the robot is a series of distances and angels. If we plot this for
 \label{RobotData}
 \end{figure}
 
-As seen on the figure there is a gap in the readings where the black pillar is at the top of the image. This is a area where the LIDAR is not able to read. This introduces another problem if we compare a error reading with a particle correct reading. This can give a good particle a bad probability later on.
+As seen on the figure there is a gap in the readings where the black pillar is at the top of the image. This is an area where the LIDAR is not able to read. This introduces another problem if we compare an error reading with a particle correct reading. This can give a good particle a bad probability later on.
 To fix this we start taking only the good readings, and then take 20 measurements equally spaced from the set. We now have a set with 20 distances and what angle they where measured in. 
 
 \textbf{Step 3: Getting The Particle Measurement}\\
-Now the particles measurements at the same angles as the real robots measurements must be found. We have done this by a ray casting technique where we put a point at the particle position. Then we move the point a little bit in the beam direction and check if there is a obstacle. If this is not the case we move the point a little more. We continue this process till we hit a obstacle.\\
+Now the particles measurements at the same angles as the real robots measurements must be found. We have done this by a ray casting technique where we put a point at the particle position. Then we move the point a little bit in the beam direction and check if there is an obstacle. If this is not the case we move the point a little more. We continue this process till we hit an obstacle.\\
 This is done for all particles in all measurement directions. When the algorithm is done the result is a 20x200 matrix containing all measurements for all particles. 
 
 \textbf{Step 4: Calculating Particle probability}\\
@@ -162,10 +162,10 @@ By comparing each particles measurements to the real robots measurements the pro
 \label{EQProb}
 \end{equation}
 
-A important factor here is the noise that indicates how mush a particle and the real robots measurements can differ, and still be a good fit. The noise must be set fairly high since we also what particle close to the true value to survive, and not just the ones on the true value. 
+An important factor here is the noise that indicates how much a particle and the real robots measurements can differ, and still be a good fit. The noise must be set fairly high since we also want particles close to the true value to survive, and not just the ones on the true value. 
 
 \textbf{Step 5: Finding The Best Fit}\\
-At some point we need to decide where the robot is, according to the particle information. There is many approaches that can be used to decide this. Some look at the mean value, others look at clusters. In our implementation we took a simple approach and took the particle with the highest probability and selected as our guess on the robot location. 
+At some point we need to decide where the robot is, according to the particle information. There are many approaches that can be used to decide this. Some look at the mean value, others look at clusters. In our implementation we took a simple approach and took the particle with the highest probability and selected as our guess on the robot location. 
 
 \textbf{Step 6: Resample Or Reset}\\
 Now it is time to do the resampling of the particles. This only make sense if there is atleast one good estimate since a resampling basically focuses the filter around the best guesses. If all guesses are bad, it will focus around random bad guesses. To counter effect this we made the filter restart and go back to step 1 if the best guess is under 10\% certainty. By doing this we force the filter to reset if it have no clue where the robot is. 
@@ -178,7 +178,7 @@ If the robot have a good guess on its location at this point it moves towards th
 \textbf{Step 8: Updating the filter}\\
 The filter is now updated by moving and turning all the particles the same amount as the real robot just did. In addition to the move, all particles are also moved and turn a little bit at random. This is to simulate the effect of the noise in the robot movement. After this step we go back to step 2 and continues from there in a never ending loop. 
 
-After a few iterations the filter will collect all particles in a small cloud around the robot position. The width and height of the cloud is detriment by the movement noise, and the noise in particle probability equation. Finding good values for the noise model is critical for a well functioning filter. In our small project fixed values was used that was found over a process of trail and error.  Similar values could be found by creating a noise model for the robot and LIDAR. In more advanced implementations it is also common to use a adaptive approach changing the values on the fly. 
+After a few iterations the filter will collect all particles in a small cloud around the robot position. The width and height of the cloud is detriment by the movement noise, and the noise in particle probability equation. Finding good values for the noise model is critical for a well functioning filter. In our small project fixed values was used that was found over a process of trial and error.  Similar values could be found by creating a noise model for the robot and LIDAR. In more advanced implementations it is also common to use an adaptive approach changing the values on the fly. 
 \input{sections/Designandimp_Planning}
  
 %------------------------------------------------
