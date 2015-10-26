@@ -6,7 +6,7 @@
 crateHeigth = size(map,1); 
 crateWidth = size(map,2); 
 
-%Robot_controller = RobotController();
+Robot_controller = RobotController();
 
 %Create walls 
 %map = zeros(crateHeigth,crateWidth);

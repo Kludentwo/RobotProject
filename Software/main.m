@@ -1,49 +1,52 @@
-% Robot Project
-% Rune, René  & Nicolai
-% clear all; close all; clc;
+% the real main file 
+mapInfo
 
-% Defines og inits osv.
-load('smallmap.mat');
-delta = [[-1, 0 ]; [ 0, -1]; [ 1, 0 ]; [ 0, 1 ]];
-init = [ 42 23 ];
-goal = [ size(map) - [ 38 41 ]];
-% Robotcontroller1 = RobotController();
-
-%Robot_controller.SmartTurn(81);
-
-scalefactor = 5;
-nuinit = [ idivide(int32(init-1),scalefactor)+1 ];
-numap = ceil(imresize(map,1/scalefactor));
-nugoal = [ idivide(int32(goal-1),scalefactor)+1 ];
-
-% cost = numap * 80 + 1;
-% cost = imgaussfilt(cost,2)*10;
-load('smallcostmap','costmap');
-nucostmap = ceil(imresize(costmap,1/scalefactor));
-cost = nucostmap*20+1;
-
-[ policyvect path ] = AstarSearch( numap, nuinit, nugoal, cost);
-nupolicyvect = scaleMap(policyvect, scalefactor);
-
-figure,
-plotpath(path,numap)
-startdir = 4;
-Robot = [ 0 0 mod((startdir/2)*pi,2*pi)]
-indexcounter = 1;
-angle = 0; 
-
-newpos = init;
-while( indexcounter < length(nupolicyvect) )
-dist = calcDist(nupolicyvect, indexcounter, 20)
-dir2 = nupolicyvect(indexcounter)
-
-newpos = init + delta(dir2,:)*dist;
-angle = mod(angle + maneuver(Robotcontroller1,Robot,dir2,dist),2*pi);
-
-Robot = [ newpos angle];
-indexcounter = indexcounter + dist;
-
-end
+% % Robot Project
+% % Rune, René  & Nicolai
+% % clear all; close all; clc;
+% 
+% % Defines og inits osv.
+% load('smallmap.mat');
+% delta = [[-1, 0 ]; [ 0, -1]; [ 1, 0 ]; [ 0, 1 ]];
+% init = [ 42 23 ];
+% goal = [ size(map) - [ 38 41 ]];
+% % Robotcontroller1 = RobotController();
+% 
+% %Robot_controller.SmartTurn(81);
+% 
+% scalefactor = 5;
+% nuinit = [ idivide(int32(init-1),scalefactor)+1 ];
+% numap = ceil(imresize(map,1/scalefactor));
+% nugoal = [ idivide(int32(goal-1),scalefactor)+1 ];
+% 
+% % cost = numap * 80 + 1;
+% % cost = imgaussfilt(cost,2)*10;
+% load('smallcostmap','costmap');
+% nucostmap = ceil(imresize(costmap,1/scalefactor));
+% cost = nucostmap*20+1;
+% 
+% [ policyvect path ] = AstarSearch( numap, nuinit, nugoal, cost);
+% nupolicyvect = scaleMap(policyvect, scalefactor);
+% 
+% figure,
+% plotpath(path,numap)
+% startdir = 4;
+% Robot = [ 0 0 mod((startdir/2)*pi,2*pi)]
+% indexcounter = 1;
+% angle = 0; 
+% 
+% newpos = init;
+% while( indexcounter < length(nupolicyvect) )
+% dist = calcDist(nupolicyvect, indexcounter, 20)
+% dir2 = nupolicyvect(indexcounter)
+% 
+% newpos = init + delta(dir2,:)*dist;
+% angle = mod(angle + maneuver(Robotcontroller1,Robot,dir2,dist),2*pi);
+% 
+% Robot = [ newpos angle];
+% indexcounter = indexcounter + dist;
+% 
+% end
 
 % Startup
 % Measure & get init position
