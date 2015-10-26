@@ -16,3 +16,12 @@ Some considerations shall also be made in regards to the resample time. In our i
 
 
 \chapter{Conclusion}
+During this project a robot that are capable of locating it self and drive to a target position was created. This was archived by using the knowledge gotten from the Udacity course "Artificial Intelligence for Robotics"\cite{AIROK} and the book Probabilistic Robots. Even though many of the methods are simple in theory, applying it to a real world application proved more difficult. For a lot of the methods like particle filters to be effective, it must run i real time. This is hard to archive while having many particles, due to the calculation time. Inconsistent LIDAR data is also a challenge. In the theory we always assumed that the sensors always was working, but had some noise. In the real world we found that the LIDAR had surfaces where it did not work and sometimes random reading failed. This is just one of many special cases that must be considered when taking the theory to practice.  
+
+When moving the robot the group found that the movement noise of a simple robot vary greatly, and is dependent on battery power, movement type and movement distance. This made it hard to use a simple noise model for the robot. In the project this was confronted by trying to minimize the noise using the LIDAR data to correct the movement. This approach worked quite well, and made it possible to assume simpler noise models.
+
+Creating a planer, and plan a route is fairly easy. Using the A* algorithm a simple path was found. The problem is that A* finds the optimal path, and not the optimal feasible path. Some path may be the shortest but require the robot to go through openings smaller that what is possible or drive to close to the wall. In this project we used a cost map to force the path found by the planner to be feasible paths.
+
+When following a path the robot could still bump in to obstacles if the location supplied by the particle filter imprecise. It was not uncommon that the location differed from the true location with up to a 5 cm. To ensure that the robot did not bump in to obstacles, a clear path detection system was created using the LIDAR data. This ensured that the robot would stop before diving in to a obstacle. 
+
+The end result was a well functioning program that could drive the robot safely to the target location. 
