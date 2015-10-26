@@ -8,10 +8,10 @@ map(end-45:end,128*2:128*2+15) = 1;
 map(end-45:end-30,128*2-15:128*2) = 1;
 save('bigmap','map')
 % Cost map
-costwidth = 25;
+costwidth = 35;
 se = strel('square', costwidth);
 costmap = imdilate(map,se);
-costmap = (costmap+map)*50+1;
+costmap = (costmap*4+map*25)*2+1;
 figure(1), imshow(costmap/max(max(costmap))), title('Dilated')
 save('bigcostmap','costmap')
 

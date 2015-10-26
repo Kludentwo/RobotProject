@@ -1,18 +1,20 @@
 \chapter{Discussion}
-
-% Motors and PID
 The motors were not fitted with tachometers which meant there was no way of getting reliable information about the wheels movement. This made it hard to determine the distance driven and the drift to either side. As a direct consequence of this, PID control and path smoothing was not used as the implementation of the PID controller would have been very complex and only relying on measurements from the LIDAR sensor. It was chosen that the PID controller implementation was out of the scope of this project. \\
-To try to correct some of the movement noise the LIDAR data was used to inform of the actual movement. This worked fairly well for us. If we had more time one interesting experiment would be to use a Kalman filter to fuse the measurement from the LIDAR with the time based control input to get a even better estimate. \\\\
-% Planning
-When a path plan is made, the plan is made from single centimetre steps into a  few coordinate sets. This is done because the robot has a hard time following the line and because of the lack of information from the wheels. When the robot is sufficiently close to one of the coordinate points, it will turn and head towards the next.\\\\
-% Generelt om robottens movement (René)
-From the result it can be seen that the robot uses a lot of steps to achieve its goal after the correct path is found. This is mainly because the robot is not very certain of its own position, since most steps happens when it tries to get close to the point.\\
+To try to correct some of the movement noise the LIDAR data was used to inform of the actual movement. This worked fairly well for us. If we had more time one interesting experiment would be to use a Kalman filter to fuse the measurement from the LIDAR with the time based control input to get a even better estimate.
+
+When a path plan is made, the plan is made from single centimetre steps into a  few coordinate sets. 
+This is done because the robot has a hard time following the line and because of the lack of information from the wheels. 
+When the robot is sufficiently close to one of the coordinate points, it will turn and head towards the next.
+From the result it can be seen that the robot uses a lot of steps to achieve its goal after the correct path is found. 
+This is mainly because the robot is not very certain of its own position, since most steps happens when it tries to get close to the point.
+
 Another problem that was often seen during the previous testing, was that the robot drifted to one side. This was somewhat solved by giving one motor a slightly higher speed than the other. The drifting error became higher the longer the robot drove in one step. Therefore the maximal distance to drive was also set to 30 cm. This gives the robot a higher precision in movements, but it also results in more movements when longer routes are planned.\\
-The Move forward function was not corrected the same way as the Turn function was. If it was corrected directly by reversing, if the robot drove too far, some of the overshoots may have been avoided.\\\\
-%Particle Filter 
+The Move forward function was not corrected the same way as the Turn function was. If it was corrected directly by reversing, if the robot drove too far, some of the overshoots may have been avoided.
+
 When using the particle filter it is important to set the noise values corrected to get a optimal filter. In our filter the noise settings was good for finding the area where the true location was with relative few particles. But the noise settings prevented us for tuning in on the true location, by decreasing the area. This could be achieved by changing the noise as a function of the certainty.   
-Another important aspect to consider when working with particle filters is the number of particles to be used. For a large map many particles is needed. The more particles the greater the calculation cost. It is therefore sometimes better to decrease the number of particles when the location have been found, since the very large amount is only truly needed in the initial location state. The optimal number to decrease  to is dependent of the application. \\\\
-Some considerations shall also be made in regards to the resample time. In our implementation we resampled after every move. But for some applications it is a better strategy to make a series of moves and see how the probability of the particles is over time and resample based on this information. It is shown when comparing our results to results made by a other group, that have used this technique, that it preforms better in situations with many symmetric locations. This is since the resample operation is way more costly than the move operation. When during a series of movements the chance of leaving the symmetric area before a resampling increases. 
+Another important aspect to consider when working with particle filters is the number of particles to be used. For a large map many particles is needed. The more particles the greater the calculation cost. It is therefore sometimes better to decrease the number of particles when the location have been found, since the very large amount is only truly needed in the initial location state. The optimal number is dependent of the application.
+
+Some considerations shall also be made in regards to the re-sample time. In our implementation we re-sampled after every move. But for some applications it is a better strategy to make a series of moves and see how the probability of the particles is over time and re-sample based on this information. It is shown when comparing our results to results made by a other group, that this strategy preforms better in situations with many symmetric locations. This is since the re-sample operation is way more costly than the move operation. When doing a series of movements the chance of leaving the symmetric area before a re-sampling increases. 
 
 
 \chapter{Conclusion}
