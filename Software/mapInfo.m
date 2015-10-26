@@ -1,4 +1,6 @@
-
+% Run this to run the program.
+% Remember to load the correct map and costmap before running the code.
+% Remember to connect to the bluetooth device before running the code.
 
 %% Create map of crate
 
